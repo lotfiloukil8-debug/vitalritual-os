@@ -28,6 +28,11 @@
     })();
   </script>
 
+  <!-- Preload Explainer Videos for Instant Playback -->
+  <link rel="preload" href="video/arabe.mp4" as="video" type="video/mp4" />
+  <link rel="preload" href="video/english.mp4" as="video" type="video/mp4" />
+  <link rel="preload" href="video/francais.mp4" as="video" type="video/mp4" />
+
   <!-- Google Fonts: Cairo & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -50,13 +55,6 @@
   </script>
 
   <style>
-    /* Hide download buttons when running as desktop application */
-    html.is-desktop-app #btn-nav-download-app,
-    html.is-desktop-app .hide-on-desktop,
-    html.is-desktop-app #modal-mediafire {
-      display: none !important;
-    }
-
     /* ════════════════════ ANIMATIONS & DESIGN SYSTEM ════════════════════ */
     @keyframes floatOrb1 {
       0%, 100% { transform: translate(0px, 0px) scale(1); }
@@ -4459,6 +4457,33 @@
       }
     };
 
+    function getVideoSourcesList(lang) {
+      const validLang = ['ar', 'en', 'fr'].includes(lang) ? lang : 'ar';
+      const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[validLang]) ? adminConfig.langVideos[validLang].trim() : '';
+
+      const baseNames = {
+        ar: ['arabe.mp4', 'demo_ar.mp4', 'video_ar.mp4', 'WhatsApp Video 2026-09-01 at 3.52.48 AM (1).mp4'],
+        en: ['english.mp4', 'demo_en.mp4', 'video_en.mp4'],
+        fr: ['francais.mp4', 'demo_fr.mp4', 'video_fr.mp4']
+      };
+
+      const sources = [];
+      if (customLangUrl) {
+        sources.push(customLangUrl);
+      }
+
+      const names = baseNames[validLang] || baseNames.ar;
+      names.forEach(name => {
+        sources.push(`video/${name}`);
+        sources.push(`videos/${name}`);
+        sources.push(`./video/${name}`);
+        sources.push(`./videos/${name}`);
+        sources.push(`/${name}`);
+      });
+
+      return sources.filter((v, i, a) => v && v.length > 0 && a.indexOf(v) === i);
+    }
+
     function setVideoLanguage(lang) {
       if (!['ar', 'en', 'fr'].includes(lang)) lang = 'ar';
       currentVideoLanguage = lang;
@@ -4472,10 +4497,10 @@
         }
       });
 
-      renderExplainerVideoSection();
+      renderExplainerVideoSection(true);
     }
 
-    function renderExplainerVideoSection() {
+    function renderExplainerVideoSection(isLangSwitch = false) {
       const playerWrapper = document.getElementById('video-player-wrapper');
       const skipBtn = document.getElementById('btn-skip-video');
       const brandNameEl = document.getElementById('video-step-brand-name');
@@ -4500,52 +4525,7 @@
 
       if (!playerWrapper) return;
 
-      const videoPathsMap = {
-        ar: [
-          'video/arabe.mp4',
-          'videos/arabe.mp4',
-          'videos/video_ar.mp4',
-          './video/arabe.mp4',
-          './videos/arabe.mp4',
-          './videos/video_ar.mp4',
-          '/video/arabe.mp4',
-          '/videos/arabe.mp4',
-          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/arabe.mp4',
-          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/arabe.mp4'
-        ],
-        en: [
-          'video/english.mp4',
-          'videos/english.mp4',
-          'videos/video_en.mp4',
-          './video/english.mp4',
-          './videos/english.mp4',
-          './videos/video_en.mp4',
-          '/video/english.mp4',
-          '/videos/english.mp4',
-          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/english.mp4',
-          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/english.mp4'
-        ],
-        fr: [
-          'video/francais.mp4',
-          'videos/francais.mp4',
-          'videos/video_fr.mp4',
-          './video/francais.mp4',
-          './videos/francais.mp4',
-          './videos/video_fr.mp4',
-          '/video/francais.mp4',
-          '/videos/francais.mp4',
-          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/francais.mp4',
-          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/francais.mp4'
-        ]
-      };
-
-      const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentVideoLanguage])
-        ? adminConfig.langVideos[currentVideoLanguage].trim()
-        : '';
-      
-      const defaultUrl = (adminConfig.videoUrl || '').trim();
-      const fallbacks = videoPathsMap[currentVideoLanguage] || videoPathsMap.ar;
-      const allSources = [customLangUrl, defaultUrl, ...fallbacks].filter((v, i, a) => v && v.length > 0 && a.indexOf(v) === i);
+      const allSources = getVideoSourcesList(currentVideoLanguage);
       const primarySrc = allSources[0] || 'video/arabe.mp4';
 
       const ytMatch = primarySrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
@@ -4560,23 +4540,72 @@
             allowfullscreen
           ></iframe>
         `;
-      } else {
-        const sourcesHtml = allSources.map(s => `<source src="${s}" type="video/mp4" onerror="handleVideoSourceError(this)" />`).join('\n              ');
-        playerWrapper.innerHTML = `
+        return;
+      }
+
+      let existingVideo = document.getElementById('explainer-video-player');
+      if (existingVideo && isLangSwitch) {
+        // Smoothly update existing video source without resetting container DOM
+        existingVideo.dataset.sources = JSON.stringify(allSources);
+        existingVideo.dataset.sourceIndex = '0';
+        existingVideo.src = primarySrc;
+        existingVideo.load();
+        existingVideo.play().catch(() => {});
+        return;
+      }
+
+      playerWrapper.innerHTML = `
+        <div class="relative w-full h-full flex items-center justify-center">
           <video
             id="explainer-video-player"
             src="${primarySrc}"
             controls
             playsinline
             webkit-playsinline
-            preload="metadata"
-            class="w-full h-full rounded-2xl object-contain bg-black shadow-inner"
-            onerror="handleExplainerVideoError(this)"
+            preload="auto"
+            class="w-full h-full rounded-2xl object-contain bg-black shadow-inner cursor-pointer"
+            data-sources='${JSON.stringify(allSources)}'
+            data-source-index="0"
           >
-            ${sourcesHtml}
             Your browser does not support HTML5 video.
           </video>
-        `;
+          <div id="video-buffer-spinner" class="hidden absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none rounded-2xl">
+            <div class="w-10 h-10 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
+      `;
+
+      const video = document.getElementById('explainer-video-player');
+      const spinner = document.getElementById('video-buffer-spinner');
+      if (video) {
+        video.addEventListener('waiting', () => { if (spinner) spinner.classList.remove('hidden'); });
+        video.addEventListener('playing', () => { if (spinner) spinner.classList.add('hidden'); });
+        video.addEventListener('canplay', () => { if (spinner) spinner.classList.add('hidden'); });
+        
+        video.addEventListener('error', () => {
+          try {
+            const sources = JSON.parse(video.dataset.sources || '[]');
+            let nextIndex = parseInt(video.dataset.sourceIndex || '0', 10) + 1;
+            if (nextIndex < sources.length) {
+              video.dataset.sourceIndex = String(nextIndex);
+              video.src = sources[nextIndex];
+              video.load();
+              video.play().catch(() => {});
+            } else {
+              handleExplainerVideoError(video);
+            }
+          } catch(e) {
+            handleExplainerVideoError(video);
+          }
+        });
+
+        // Instant pre-buffering & click-to-play
+        video.load();
+        video.addEventListener('click', () => {
+          if (video.paused) {
+            video.play().catch(() => {});
+          }
+        });
       }
     }
 
@@ -4723,52 +4752,7 @@
       const box = document.getElementById('modal-video-player-box');
       if (!box) return;
 
-      const videoPathsMap = {
-        ar: [
-          'video/arabe.mp4',
-          'videos/arabe.mp4',
-          'videos/video_ar.mp4',
-          './video/arabe.mp4',
-          './videos/arabe.mp4',
-          './videos/video_ar.mp4',
-          '/video/arabe.mp4',
-          '/videos/arabe.mp4',
-          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/arabe.mp4',
-          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/arabe.mp4'
-        ],
-        en: [
-          'video/english.mp4',
-          'videos/english.mp4',
-          'videos/video_en.mp4',
-          './video/english.mp4',
-          './videos/english.mp4',
-          './videos/video_en.mp4',
-          '/video/english.mp4',
-          '/videos/english.mp4',
-          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/english.mp4',
-          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/english.mp4'
-        ],
-        fr: [
-          'video/francais.mp4',
-          'videos/francais.mp4',
-          'videos/video_fr.mp4',
-          './video/francais.mp4',
-          './videos/francais.mp4',
-          './videos/video_fr.mp4',
-          '/video/francais.mp4',
-          '/videos/francais.mp4',
-          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/francais.mp4',
-          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/francais.mp4'
-        ]
-      };
-
-      const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentModalVideoLang])
-        ? adminConfig.langVideos[currentModalVideoLang].trim()
-        : '';
-      
-      const defaultUrl = (adminConfig.videoUrl || '').trim();
-      const fallbacks = videoPathsMap[currentModalVideoLang] || videoPathsMap.ar;
-      const allSources = [customLangUrl, defaultUrl, ...fallbacks].filter((v, i, a) => v && v.length > 0 && a.indexOf(v) === i);
+      const allSources = getVideoSourcesList(currentModalVideoLang);
       const primarySrc = allSources[0] || 'video/arabe.mp4';
 
       const ytMatch = primarySrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
@@ -4783,36 +4767,73 @@
             allowfullscreen
           ></iframe>
         `;
-      } else {
-        const sourcesHtml = allSources.map(s => `<source src="${s}" type="video/mp4" onerror="handleVideoSourceError(this)" />`).join('\n              ');
-        box.innerHTML = `
+        return;
+      }
+
+      box.innerHTML = `
+        <div class="relative w-full h-full flex items-center justify-center">
           <video
             id="modal-explainer-video-player"
             src="${primarySrc}"
             controls
-            autoplay
             playsinline
             webkit-playsinline
-            preload="metadata"
-            class="w-full h-full rounded-2xl object-contain bg-black shadow-inner"
+            preload="auto"
+            class="w-full h-full rounded-2xl object-contain bg-black shadow-inner cursor-pointer"
+            data-sources='${JSON.stringify(allSources)}'
+            data-source-index="0"
           >
-            ${sourcesHtml}
             Your browser does not support HTML5 video.
           </video>
-        `;
+          <div id="modal-video-buffer-spinner" class="hidden absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none rounded-2xl">
+            <div class="w-10 h-10 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
+      `;
+
+      const video = document.getElementById('modal-explainer-video-player');
+      const spinner = document.getElementById('modal-video-buffer-spinner');
+      if (video) {
+        video.addEventListener('waiting', () => { if (spinner) spinner.classList.remove('hidden'); });
+        video.addEventListener('playing', () => { if (spinner) spinner.classList.add('hidden'); });
+        video.addEventListener('canplay', () => { if (spinner) spinner.classList.add('hidden'); });
+        
+        video.addEventListener('error', () => {
+          try {
+            const sources = JSON.parse(video.dataset.sources || '[]');
+            let nextIndex = parseInt(video.dataset.sourceIndex || '0', 10) + 1;
+            if (nextIndex < sources.length) {
+              video.dataset.sourceIndex = String(nextIndex);
+              video.src = sources[nextIndex];
+              video.load();
+              video.play().catch(() => {});
+            }
+          } catch(e) {}
+        });
+
+        video.load();
+        video.play().catch(() => {});
+        video.addEventListener('click', () => {
+          if (video.paused) {
+            video.play().catch(() => {});
+          }
+        });
       }
     }
 
     function handleVideoSourceError(sourceEl) {
       const video = sourceEl.closest('video');
       if (!video) return;
-      const sources = Array.from(video.querySelectorAll('source'));
-      const currentSrc = video.currentSrc || video.src;
-      let nextIndex = sources.findIndex(s => s.src === currentSrc) + 1;
-      if (nextIndex > 0 && nextIndex < sources.length) {
-        video.src = sources[nextIndex].src;
-        video.load();
-      }
+      try {
+        const sources = JSON.parse(video.dataset.sources || '[]');
+        let nextIndex = parseInt(video.dataset.sourceIndex || '0', 10) + 1;
+        if (nextIndex < sources.length) {
+          video.dataset.sourceIndex = String(nextIndex);
+          video.src = sources[nextIndex];
+          video.load();
+          video.play().catch(() => {});
+        }
+      } catch(e) {}
     }
     window.handleVideoSourceError = handleVideoSourceError;
 
@@ -8955,13 +8976,8 @@ DIRECTIVES:
         }
         const downloadBtn = document.getElementById('btn-nav-download-app');
         if (downloadBtn) {
-          if (isDesktopApp) {
-            downloadBtn.classList.add('hidden');
-            downloadBtn.style.setProperty('display', 'none', 'important');
-          } else {
-            downloadBtn.classList.remove('hidden');
-            downloadBtn.style.removeProperty('display');
-          }
+          downloadBtn.classList.remove('hidden');
+          downloadBtn.style.removeProperty('display');
         }
       } catch (e) {
         console.error('Environment check error:', e);
