@@ -2528,83 +2528,79 @@
         </div>
 
         <div class="space-y-3.5 text-xs">
-        <div class="space-y-3.5 text-xs">
-          <!-- 📱 1-Click Instant PWA Installation Card (Mobile & Desktop) -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-50 via-teal-50 to-emerald-50 dark:from-cyan-950/50 dark:via-teal-950/40 dark:to-emerald-950/40 border-2 border-cyan-400 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
+          <!-- 💻 Windows PC Native Application (.EXE) & (.ZIP) Download Card -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/40 dark:via-indigo-950/40 dark:to-purple-950/40 border-2 border-blue-400/80 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
             <div class="flex items-center gap-3 text-right">
-              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 text-2xl flex items-center justify-center font-bold shadow-md shadow-cyan-500/25 shrink-0">
-                📲
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white text-2xl flex items-center justify-center font-bold shadow-md shadow-blue-500/25 shrink-0">
+                💻
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تثبيت التطبيق الفوري (App PWA)</h4>
-                  <span class="px-2 py-0.5 rounded-full bg-cyan-500 text-slate-950 font-black text-[9px]">أسرع وأخف ⭐</span>
+                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق الكمبيوتر لويندوز (Windows .EXE)</h4>
+                  <span class="px-2 py-0.5 rounded-full bg-blue-500 text-white font-black text-[9px]">تطبيق أصلي ⭐</span>
                 </div>
-                <p class="text-[11px] text-slate-600 dark:text-slate-300">يعمل كتطبيق كامل على هاتفك (أندرويد / آيفون) أو جهاز الكمبيوتر بدون متجر، ويدعم وضع عدم الاتصال بالإنترنت</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">تطبيق حقيقي مستقل (.exe) يعمل على وينdوز 10/11 بدون متصفح وبحفظ تلقائي</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+              <button
+                type="button"
+                onclick="downloadWindowsApp()"
+                class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs transition hover:scale-105 cursor-pointer shadow-md flex items-center justify-center gap-1.5 shrink-0"
+              >
+                <span>⬇️</span>
+                <span>تحميل EXE</span>
+              </button>
+              <button
+                type="button"
+                onclick="downloadWindowsZip()"
+                class="flex-1 sm:flex-initial px-3.5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition cursor-pointer shrink-0"
+                title="تحميل حزمة مضغوطة ZIP"
+              >
+                <span>📦 ZIP</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 📱 1-Click Instant PWA Installation Card (Mobile & Desktop) -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-50 via-teal-50 to-emerald-50 dark:from-cyan-950/50 dark:via-teal-950/40 dark:to-emerald-950/40 border border-cyan-300 dark:border-cyan-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3 text-right">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 text-xl flex items-center justify-center font-bold shadow-sm shrink-0">
+                📲
+              </div>
+              <div>
+                <h4 class="text-xs font-black text-slate-900 dark:text-white">تثبيت التطبيق على الهاتف (PWA App)</h4>
+                <p class="text-[10px] text-slate-600 dark:text-slate-400">تثبيت فوري على شاشة أندرويد وآيفون بدون متجر</p>
               </div>
             </div>
             <button
               type="button"
               id="btn-pwa-modal-install"
               onclick="installPwaApp()"
-              class="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 hover:from-cyan-400 hover:to-emerald-300 text-slate-950 font-black text-xs transition hover:scale-105 cursor-pointer shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2 shrink-0"
+              class="w-full sm:w-auto px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs transition cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
             >
               <span>📲</span>
-              <span>تثبيت التطبيق الآن</span>
+              <span>تثبيت الهاتف</span>
             </button>
           </div>
 
           <!-- 💻 Standalone Web App / Direct HTML Offline Download -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 border-2 border-blue-400/60 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800/60 dark:to-slate-900/60 border border-slate-300 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3 text-right">
-              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-2xl flex items-center justify-center font-bold shadow-md shrink-0">
+              <div class="w-10 h-10 rounded-xl bg-slate-300 dark:bg-slate-700 text-slate-900 dark:text-white text-xl flex items-center justify-center font-bold shadow-xs shrink-0">
                 💾
               </div>
               <div>
-                <h4 class="text-sm font-black text-slate-900 dark:text-white">تحميل ملف التطبيق المستقل (HTML Offline)</h4>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">تنزيل نسخة كاملة تعمل 100% بدون إنترنت على جهازك بمجرد فتح الملف</p>
+                <h4 class="text-xs font-black text-slate-900 dark:text-white">تحميل ملف التطبيق المستقل (HTML Offline)</h4>
+                <p class="text-[10px] text-slate-500 dark:text-slate-400">تنزيل نسخة تعمل بدون إنترنت وبدون تثبيت على أي جهاز</p>
               </div>
             </div>
             <button
               type="button"
               onclick="downloadDirectHtmlFile()"
-              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs transition hover:scale-105 cursor-pointer shrink-0 shadow-sm flex items-center justify-center gap-1.5"
+              class="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 font-bold text-xs hover:opacity-90 transition cursor-pointer shrink-0 shadow-xs"
             >
-              <span>📥</span>
-              <span>تنزيل الملف</span>
-            </button>
-          </div>
-
-          <!-- 🤖 Android APK & 🍏 iOS Custom Options -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              onclick="openPlatformDownload('android')"
-              class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 text-slate-900 dark:text-white hover:bg-emerald-100 transition cursor-pointer flex items-center justify-between"
-            >
-              <div class="flex items-center gap-2 text-right">
-                <span class="text-xl">🤖</span>
-                <div>
-                  <span class="text-xs font-bold block">Android APK</span>
-                  <span class="text-[10px] text-slate-500 dark:text-slate-400">تحميل مباشر</span>
-                </div>
-              </div>
-              <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">فتح ↗</span>
-            </button>
-
-            <button
-              type="button"
-              onclick="openPlatformDownload('ios')"
-              class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white hover:bg-slate-200 transition cursor-pointer flex items-center justify-between"
-            >
-              <div class="flex items-center gap-2 text-right">
-                <span class="text-xl">🍏</span>
-                <div>
-                  <span class="text-xs font-bold block">iOS / iPhone</span>
-                  <span class="text-[10px] text-slate-500 dark:text-slate-400">دليل التثبيت</span>
-                </div>
-              </div>
-              <span class="text-xs font-bold text-cyan-600 dark:text-cyan-400">فتح ↗</span>
+              <span>📥 تنزيل HTML</span>
             </button>
           </div>
 
@@ -8060,8 +8056,35 @@ DIRECTIVES:
       }
     }
 
+    function downloadWindowsApp() {
+      playSuccessChime();
+      showToast('💻 جاري بدء تحميل تطبيق الكمبيوتر (VitalRitual_OS.exe)...');
+      const a = document.createElement('a');
+      a.href = 'VitalRitual_OS.exe';
+      a.download = 'VitalRitual_OS.exe';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function downloadWindowsZip() {
+      playSuccessChime();
+      showToast('📦 جاري بدء تحميل حزمة الكمبيوتر المضغوطة (ZIP)...');
+      const a = document.createElement('a');
+      a.href = 'VitalRitual_OS_PC_v1.0.zip';
+      a.download = 'VitalRitual_OS_PC_v1.0.zip';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
     function handleSmartAppDownload() {
-      if (deferredPwaPrompt) {
+      const ua = (navigator.userAgent || '').toLowerCase();
+      const isMobile = /android|iphone|ipad|ipod/i.test(ua);
+      if (!isMobile) {
+        // Direct 1-Click native Windows .exe download on desktop
+        downloadWindowsApp();
+      } else if (deferredPwaPrompt) {
         installPwaApp();
       } else {
         openMediafireModal();
