@@ -806,14 +806,14 @@
         <!-- 🔥 FLAMES BADGE (COLLECTED FROM HABITS) -->
         <div onclick="switchTab('leaderboard')" class="flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-300 text-xs font-black font-mono shadow-2xs transition-transform hover:scale-105 cursor-pointer" title="الشعلات الحيوية المكتسبة من إنجاز العادات (انقر لفتح لوحة المتصدرين)">
           <span class="animate-flame inline-block">🔥</span>
-          <span id="top-flames-count">42</span>
+          <span id="top-flames-count">0</span>
           <span class="hidden sm:inline text-[10px]">شعلة</span>
         </div>
 
         <!-- ⚡ Streak Badge -->
         <div onclick="switchTab('calendar')" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 text-xs font-black font-mono shadow-2xs transition-transform hover:scale-105 cursor-pointer" title="أيام السلسلة المتتالية">
           <span>⚡</span>
-          <span id="top-streak-count">7d</span>
+          <span id="top-streak-count">0d</span>
         </div>
 
         <!-- 🛡️ Shields Badge with 2/7 Live Counter -->
@@ -1152,11 +1152,11 @@
             </div>
             <div class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-900 text-center">
               <span class="text-[11px] font-bold text-amber-800 dark:text-amber-300 block">السلسلة الحالية</span>
-              <span id="cal-stat-streak" class="text-xl font-mono font-black text-amber-950 dark:text-amber-100">7 يوم 🔥</span>
+              <span id="cal-stat-streak" class="text-xl font-mono font-black text-amber-950 dark:text-amber-100">0 يوم 🔥</span>
             </div>
             <div class="p-3.5 rounded-2xl bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-900 text-center">
               <span class="text-[11px] font-bold text-purple-800 dark:text-purple-300 block">الدروع المتاحة</span>
-              <span id="cal-stat-shields" class="text-xl font-mono font-black text-purple-950 dark:text-purple-100">3 دروع 🛡️</span>
+              <span id="cal-stat-shields" class="text-xl font-mono font-black text-purple-950 dark:text-purple-100">0 دروع 🛡️</span>
             </div>
           </div>
 
@@ -1197,11 +1197,11 @@
             <div class="flex items-center gap-3">
               <div class="p-3 rounded-2xl bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 text-center shadow-2xs transition-transform hover:scale-105">
                 <span class="text-xs font-bold text-amber-900 dark:text-amber-300 block">سلسلتك الحالية</span>
-                <span id="rewards-streak-display" class="text-2xl font-black font-mono text-amber-950 dark:text-amber-200">7 🔥</span>
+                <span id="rewards-streak-display" class="text-2xl font-black font-mono text-amber-950 dark:text-amber-200">0 🔥</span>
               </div>
               <div class="p-3 rounded-2xl bg-cyan-100 dark:bg-cyan-950/60 border border-cyan-300 dark:border-cyan-800 text-center shadow-2xs transition-transform hover:scale-105">
                 <span class="text-xs font-bold text-cyan-900 dark:text-cyan-300 block">إجمالي النقاط</span>
-                <span id="rewards-points-display" class="text-2xl font-black font-mono text-cyan-950 dark:text-cyan-200">1450 ⭐</span>
+                <span id="rewards-points-display" class="text-2xl font-black font-mono text-cyan-950 dark:text-cyan-200">0 ⭐</span>
               </div>
             </div>
           </div>
@@ -1675,42 +1675,42 @@
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
                   <span>⭐</span> إجمالي النقاط
                 </span>
-                <span id="profile-stat-points" class="text-2xl font-black font-mono text-cyan-700 dark:text-cyan-300 block">1450</span>
+                <span id="profile-stat-points" class="text-2xl font-black font-mono text-cyan-700 dark:text-cyan-300 block">0</span>
               </div>
 
               <div class="p-4 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-slate-300 dark:border-slate-700 space-y-1">
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
                   <span>🔥</span> السلسلة الحالية
                 </span>
-                <span id="profile-stat-streak" class="text-2xl font-black font-mono text-amber-600 dark:text-amber-400 block">7 أيام</span>
+                <span id="profile-stat-streak" class="text-2xl font-black font-mono text-amber-600 dark:text-amber-400 block">0 أيام</span>
               </div>
 
               <div class="p-4 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-slate-300 dark:border-slate-700 space-y-1">
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
                   <span>🏆</span> أطول سلسلة قياسية
                 </span>
-                <span id="profile-stat-longest" class="text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400 block">14 يوماً</span>
+                <span id="profile-stat-longest" class="text-2xl font-black font-mono text-emerald-600 dark:text-emerald-400 block">0 يوماً</span>
               </div>
 
               <div class="p-4 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-slate-300 dark:border-slate-700 space-y-1">
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
                   <span>⚡</span> نسبة الالتزام الكلي
                 </span>
-                <span id="profile-stat-rate" class="text-2xl font-black font-mono text-indigo-600 dark:text-indigo-400 block">92%</span>
+                <span id="profile-stat-rate" class="text-2xl font-black font-mono text-indigo-600 dark:text-indigo-400 block">100%</span>
               </div>
 
               <div class="p-4 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-slate-300 dark:border-slate-700 space-y-1">
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
                   <span>🔥</span> إجمالي الشعلات الحيوية
                 </span>
-                <span id="profile-stat-flames" class="text-2xl font-black font-mono text-rose-600 dark:text-rose-400 block">42 🔥</span>
+                <span id="profile-stat-flames" class="text-2xl font-black font-mono text-rose-600 dark:text-rose-400 block">0 🔥</span>
               </div>
 
               <div class="p-4 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-slate-300 dark:border-slate-700 space-y-1">
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
                   <span>🥛</span> الماء النقي المستهلك
                 </span>
-                <span id="profile-stat-water" class="text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400 block">40.0L (160 كوب)</span>
+                <span id="profile-stat-water" class="text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400 block">0.0L (0 كوب)</span>
               </div>
 
               <div class="p-4 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-slate-300 dark:border-slate-700 space-y-1">
@@ -2081,7 +2081,7 @@
         <div class="p-3.5 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-amber-300 dark:border-amber-800/80 flex items-center justify-around text-xs font-mono font-bold">
           <div>
             <span class="text-slate-500 dark:text-slate-400 block text-[10px]">إجمالي الشعلات</span>
-            <span id="anim-flame-total" class="text-rose-600 dark:text-rose-400 text-sm font-black">43 🔥</span>
+            <span id="anim-flame-total" class="text-rose-600 dark:text-rose-400 text-sm font-black">0 🔥</span>
           </div>
           <div class="w-px h-6 bg-slate-300 dark:bg-slate-700"></div>
           <div>
@@ -2173,12 +2173,12 @@
         <div class="p-3.5 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-cyan-300 dark:border-cyan-800/80 flex items-center justify-around text-xs font-mono font-bold">
           <div>
             <span class="text-slate-500 dark:text-slate-400 block text-[10px]">الشعلات المحفوظة</span>
-            <span id="anim-shield-saved-flames" class="text-rose-600 dark:text-rose-400 text-sm font-black">42 🔥</span>
+            <span id="anim-shield-saved-flames" class="text-rose-600 dark:text-rose-400 text-sm font-black">0 🔥</span>
           </div>
           <div class="w-px h-6 bg-slate-300 dark:bg-slate-700"></div>
           <div>
             <span class="text-slate-500 dark:text-slate-400 block text-[10px]">الدروع المتبقية</span>
-            <span id="anim-shield-remaining" class="text-cyan-600 dark:text-cyan-400 text-sm font-black">2 🛡️</span>
+            <span id="anim-shield-remaining" class="text-cyan-600 dark:text-cyan-400 text-sm font-black">0 🛡️</span>
           </div>
         </div>
 
@@ -2700,7 +2700,7 @@
             </div>
             <div>
               <span id="sync-user-name" class="text-xs font-black block text-slate-900 dark:text-white">أحمد بطل الانضباط</span>
-              <span id="sync-user-stats" class="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 font-bold">14 🔥 · 7d ⚡ · 1,200 ⭐</span>
+              <span id="sync-user-stats" class="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 font-bold">0 🔥 · 0d ⚡ · 0 ⭐</span>
             </div>
           </div>
           <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-black border border-emerald-300 dark:border-emerald-800">
@@ -3657,7 +3657,7 @@
         consistencyRateLabel: 'نسبة الالتزام العامة',
         consistencyRate: 'نسبة الالتزام العامة',
         customHabitsTitle: 'عاداتك اليومية المخصصة (Custom Habits)',
-        customHabitsSub: 'انقر على العادة لتأكيد إنجازها اليومي وكسب الشعلات 🔥 والنقاط ⭐',
+        customHabitsSub: 'انقر على العادة لتأكيد إنجازها اليومي ثم اضغط على زر CHECK-IN لتسجيل اليوم وكسب الشعلة 🔥',
         btnSmartSuggestions: 'اقتراح عادات ذكية',
         btnAddHabit: 'أضف عادة جديدة',
         suggestionsDrawerTitle: 'انقر على أي عادة مقترحة لإضافتها فوراً إلى خطتك اليومية:',
@@ -3702,7 +3702,7 @@
         waterQuickSub: '-1 كوب',
         activityTitle: '🏃 النشاط البدني والتمارين الرياضية اليومية',
         habitsChecklistTitle: '📋 قائمة العادات اليومية وتحدي الاستمرارية',
-        habitsSub: 'كل عادة تنجزها تمنحك +1 شعلة 🔥، وإنجاز 6 عادات يمنحك كومبو +10 شعلات أسطوري!',
+        habitsSub: 'أنجز جميع عاداتك اليومية واضغط على CHECK-IN لكسب شعلتك 🔥 وحماية سلسلتك ودروعك!',
         checkinBtn: '⚡ تسجيل حضور وإنجاز اليوم وحفظ السلسلة 🔥',
         checkinDoneBtn: '✓ تم إتمام وتسجيل اليوم بنجاح! أحسنت 🌟',
         calTitle: '🗓️ تقويم الاستمرارية الشامل طوال الحياة',
@@ -3742,7 +3742,7 @@
         consistencyRateLabel: 'Taux de régularité global',
         consistencyRate: 'Taux de Régularité',
         customHabitsTitle: 'Vos Habitudes Personnalisées (Custom Habits)',
-        customHabitsSub: "Cliquez sur l'habitude pour la valider et gagner vos flammes 🔥 et points ⭐",
+        customHabitsSub: "Cochez vos habitudes complétées puis cliquez sur CHECK-IN pour valider la journée et gagner votre flamme 🔥",
         btnSmartSuggestions: "Suggestions d'habitudes",
         btnAddHabit: 'Ajouter une habitude',
         suggestionsDrawerTitle: "Cliquez sur une habitude suggérée pour l'ajouter instantanément :",
@@ -3787,7 +3787,7 @@
         waterQuickSub: '-1 Verre',
         activityTitle: '🏃 Activité Physique & Entraînement Quotidien',
         habitsChecklistTitle: '📋 Liste des Habitudes & Défi de Continuité',
-        habitsSub: 'Chaque habitude complétée donne +1 Flamme 🔥. Compléter 6 habitudes débloque le méga combo +10 Flammes!',
+        habitsSub: 'Complétez toutes vos habitudes du jour et cliquez sur CHECK-IN pour gagner votre flamme 🔥 et protéger votre série !',
         checkinBtn: '⚡ Valider le Check-In Quotidien & Garder la Série 🔥',
         checkinDoneBtn: '✓ Journée Validée avec Succès! Bravo 🌟',
         calTitle: "🗓️ Calendrier de Continuité et d'Habitudes",
@@ -3827,7 +3827,7 @@
         consistencyRateLabel: 'Overall Consistency Rate',
         consistencyRate: 'Overall Consistency',
         customHabitsTitle: 'Your Custom Daily Habits',
-        customHabitsSub: 'Click any habit to mark it done and earn flames 🔥 and points ⭐',
+        customHabitsSub: 'Check off your completed habits, then click CHECK-IN to log your day and earn your flame 🔥',
         btnSmartSuggestions: 'Smart Suggestions',
         btnAddHabit: 'Add New Habit',
         suggestionsDrawerTitle: 'Click any suggested habit to add it directly to your routine:',
@@ -3872,7 +3872,17 @@
         waterQuickSub: '-1 Glass',
         activityTitle: '🏃 Daily Physical Activity & Energy Workout',
         habitsChecklistTitle: '📋 Daily Habits Checklist & Consistency Challenge',
-        habitsSub: 'Every completed habit gives you +1 Flame 🔥. Completing 6 habits unlocks the +10 Mega Flame combo!',
+        habitsSub: 'Complete all your daily habits and click CHECK-IN to earn your flame 🔥 and safeguard your streak!',
+        checkinBtn: '⚡ Complete Daily Check-In & Keep Streak 🔥',
+        checkinDoneBtn: '✓ Today Checked-In Successfully! Well Done 🌟',
+        calTitle: '🗓️ Lifetime Consistency & Habit Calendar',
+        calSub: 'Full history of your check-in streaks, consistency rate, and shields across months & years',
+        calTotalDays: 'Total Days',
+        calCurrentStreak: 'Current Streak',
+        calShieldsCount: 'Protection Shields',
+        calOverallConsistency: 'Consistency Rate',
+        rewardsTitle: '🏆 Grand Rewards & Badges Mastery',
+        rewardsSub: '24 unlockable badges and hero progression from Level 1 to Cosmic Legend Level 6',
         checkinBtn: '⚡ Complete Daily Check-In & Keep Streak 🔥',
         checkinDoneBtn: '✓ Today Checked-In Successfully! Well Done 🌟',
         calTitle: '🗓️ Lifetime Consistency & Habit Calendar',
@@ -3942,7 +3952,14 @@
     } catch {}
 
     // 3. APPLICATION STATE INITIALIZATION
-    const todayStr = new Date().toISOString().slice(0, 10);
+    function getLocalDateString(date = new Date()) {
+      const d = new Date(date);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+    let todayStr = getLocalDateString();
     
     let isDarkMode = localStorage.getItem('vital_checkin_theme') === 'dark';
     let currentTab = 'checkin';
@@ -3961,7 +3978,7 @@
       email: '',
       avatar: '🦁',
       motto: 'الانضباط اليومي يصنع المعجزات ⚡',
-      joinedAt: new Date().toISOString().slice(0, 10)
+      joinedAt: getLocalDateString()
     };
     try {
       const uRaw = localStorage.getItem('vital_user_profile');
@@ -3979,7 +3996,7 @@
       extraDays: 0,
       totalDays: 30,
       title: '30 يوماً (شهر كامل)',
-      startDate: new Date().toISOString().slice(0, 10)
+      startDate: getLocalDateString()
     };
     try {
       const cRaw = localStorage.getItem('vital_challenge_plan');
@@ -4020,6 +4037,39 @@
     let flames = parseInt(localStorage.getItem('vital_flames') || '0', 10);
     let mediafireUrl = adminConfig.mediafireUrl || 'https://www.mediafire.com/';
 
+    let checkInLogs = {};
+    try {
+      const raw = localStorage.getItem('vital_checkin_logs');
+      if (raw) {
+        checkInLogs = JSON.parse(raw);
+      }
+    } catch { checkInLogs = {}; }
+
+    // 🔄 DAILY HABITS STATUS CHECK & MIDNIGHT RESET HELPER
+    function checkAndApplyDailyHabitsReset() {
+      todayStr = getLocalDateString();
+      let modified = false;
+
+      if (Array.isArray(habits)) {
+        habits = habits.map(h => {
+          // If habit was completed today, keep it completed. Otherwise reset completed = false for today!
+          const isDoneToday = Boolean(h.lastCompletedDate && h.lastCompletedDate === todayStr);
+          if (h.completed !== isDoneToday) {
+            modified = true;
+            return {
+              ...h,
+              completed: isDoneToday
+            };
+          }
+          return h;
+        });
+      }
+
+      if (modified) {
+        localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
+      }
+    }
+
     let habits = [];
     try {
       const raw = localStorage.getItem('vital_checkin_habits');
@@ -4033,25 +4083,12 @@
           emoji: h.emoji,
           targetDays: 30,
           completed: false,
+          lastCompletedDate: null,
           streak: 0
         }));
       }
+      checkAndApplyDailyHabitsReset();
     } catch { habits = []; }
-
-    let checkInLogs = {};
-    try {
-      const raw = localStorage.getItem('vital_checkin_logs');
-      if (raw) {
-        checkInLogs = JSON.parse(raw);
-      } else {
-        for (let i = 1; i <= 20; i++) {
-          const d = new Date();
-          d.setDate(d.getDate() - i);
-          const ds = d.toISOString().slice(0, 10);
-          checkInLogs[ds] = { date: ds, status: 'success', sleepHrs: 7.5, waterCups: 8, waterL: 2.0, moveMins: 35, habitsDone: 5 };
-        }
-      }
-    } catch { checkInLogs = {}; }
 
     let calYear = new Date().getFullYear();
     let calMonth = new Date().getMonth();
@@ -5578,6 +5615,7 @@
     // 4. MAIN APP DOM RENDERERS
 
     function renderAll() {
+      checkAndApplyDailyHabitsReset();
       renderTheme();
       renderTranslations();
       renderTopBadges();
@@ -6076,19 +6114,27 @@
       showToast('✓ تم حذف العادة بنجاح');
     }
 
-    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today with realtime flames)
+    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today - flames are awarded upon daily Check-In)
     function toggleHabit(id) {
+      checkAndApplyDailyHabitsReset();
       let justDone = false;
       let habitTitle = '';
       let found = false;
       habits = habits.map(h => {
         if (String(h.id) === String(id) || h.id == id) {
           found = true;
-          const nextDone = !h.completed;
+          const isCurrentlyDone = Boolean(h.lastCompletedDate === todayStr && h.completed);
+          const nextDone = !isCurrentlyDone;
           justDone = nextDone;
           habitTitle = h.title;
-          const nextStreak = nextDone ? (h.streak || 0) + 1 : Math.max(0, (h.streak || 1) - 1);
-          return { ...h, completed: nextDone, streak: nextStreak };
+          const currentStreak = h.streak || 0;
+          const nextStreak = nextDone ? currentStreak + 1 : Math.max(0, currentStreak - 1);
+          return {
+            ...h,
+            completed: nextDone,
+            lastCompletedDate: nextDone ? todayStr : null,
+            streak: nextStreak
+          };
         }
         return h;
       });
@@ -6098,37 +6144,39 @@
         return;
       }
 
-      if (justDone) {
-        flames += 1;
-        points += 50;
-      } else {
-        flames = Math.max(0, flames - 1);
-        points = Math.max(0, points - 50);
-      }
-
-      // Automatically recalculate shields based on 7 flames milestone
-      shields = Math.floor(flames / 7);
-
+      // Note: Flames and shields are intentionally NOT modified per individual habit toggle.
+      // They are awarded on daily Check-In once all habits are completed!
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
-      localStorage.setItem('vital_flames', flames.toString());
-      localStorage.setItem('vital_shields', shields.toString());
-      localStorage.setItem('vital_points', points.toString());
 
       try { saveAccountSyncData(); } catch(e){}
       renderAll();
 
-      const completedCount = habits.filter(h => h.completed).length;
+      const completedCount = habits.filter(h => h.completed && h.lastCompletedDate === todayStr).length;
       const totalCount = habits.length;
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
 
       if (justDone) {
         playSuccessChime();
         if (completedCount === totalCount && totalCount > 0) {
-          showToast(`✨ ممتاز! أتممت جميع عاداتك اليوم (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · ${completedCount}/${totalCount})!`);
+          showToast(isFr 
+            ? `✨ Bravo ! Toutes vos habitudes sont complétées (${completedCount}/${totalCount}) ! Cliquez maintenant sur CHECK-IN pour valider et recevoir votre flamme 🔥 !` 
+            : (isEn 
+            ? `✨ Outstanding! All habits completed (${completedCount}/${totalCount})! Click CHECK-IN now to earn your flame 🔥!` 
+            : `✨ ممتاز! أتممت جميع عاداتك اليوم (${completedCount}/${totalCount})! اضغط الآن على زر CHECK-IN لتسجيل اليوم واستلام شعلتك 🔥!`));
         } else {
-          showToast(`✓ تم تأكيد إنجاز: ${habitTitle} (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · ${completedCount}/${totalCount})`);
+          showToast(isFr 
+            ? `✓ Habitude validée : ${habitTitle} (${completedCount}/${totalCount})` 
+            : (isEn 
+            ? `✓ Completed: ${habitTitle} (${completedCount}/${totalCount})` 
+            : `✓ تم تأكيد إنجاز: ${habitTitle} (${completedCount}/${totalCount})`));
         }
       } else {
-        showToast(`↩️ تم إلغاء تحديد: ${habitTitle} (-1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · ${completedCount}/${totalCount})`);
+        showToast(isFr 
+          ? `↩️ Habitude décochée : ${habitTitle} (${completedCount}/${totalCount})` 
+          : (isEn 
+          ? `↩️ Habit unchecked: ${habitTitle} (${completedCount}/${totalCount})` 
+          : `↩️ تم إلغاء تحديد: ${habitTitle} (${completedCount}/${totalCount})`));
       }
     }
 
@@ -6293,22 +6341,26 @@
       if (modal) modal.classList.add('hidden');
     }
 
-    // ⚡ CHECK-IN EXECUTION (Professional Rules with 3 Rich Event Animations)
+    // ⚡ CHECK-IN EXECUTION (Awards 1 Flame and updates Streak & Shield System on 100% completed habits)
     function performDailyCheckIn() {
+      checkAndApplyDailyHabitsReset();
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+
       if (checkInLogs[todayStr]) {
-        showToast('✓ تم تسجيل وإغلاق هذا اليوم بالفعل!');
+        showToast(isFr ? '✓ Journée déjà validée et enregistrée !' : (isEn ? '✓ Today is already checked in!' : '✓ تم تسجيل وإغلاق هذا اليوم بالفعل!'));
         return;
       }
 
       const totalHabits = habits.length;
       if (totalHabits === 0) {
-        showToast('⚠️ يرجى إضافة عادة واحدة على الأقل قبل تسجيل اليوم!');
+        showToast(isFr ? '⚠️ Veuillez ajouter au moins une habitude avant de valider la journée !' : (isEn ? '⚠️ Please add at least one habit before checking in!' : '⚠️ يرجى إضافة عادة واحدة على الأقل قبل تسجيل اليوم!'));
         return;
       }
 
-      const completedHabitsToday = habits.filter(h => h.completed).length;
+      const completedHabitsToday = habits.filter(h => h.completed && h.lastCompletedDate === todayStr).length;
 
-      if (completedHabitsToday > 0) {
+      if (completedHabitsToday === totalHabits) {
         // 🌟 SUCCESS: 1 successful daily Check-in = +1 Flame, +1 Streak Day, +100 PTS bonus
         const earnedFlames = 1;
         flames += earnedFlames;
@@ -6318,7 +6370,7 @@
         }
         points += 100;
 
-        // 🛡️ Shield Rule: Recovers +1 shield every 7 flames
+        // 🛡️ Shield Rule: Recovers +1 shield every 7 flames milestone
         const prevShields = shields;
         const calculatedShields = Math.floor(flames / 7);
         if (calculatedShields > shields) {
@@ -6331,9 +6383,18 @@
         launchConfetti();
         triggerFlameGainedAnimation(flames, earnedShield, shields);
 
-        let successMsg = `✓ تم تسجيل وإغلاق اليوم بنجاح! (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · +100 نقطة ⭐)`;
+        let successMsg = isFr 
+          ? `✓ Journée validée avec succès ! (+1 Flamme 🔥 · Total: ${flames} 🔥 · +100 PTS ⭐)`
+          : (isEn 
+          ? `✓ Day successfully logged! (+1 Flame 🔥 · Total: ${flames} 🔥 · +100 PTS ⭐)` 
+          : `✓ تم تسجيل وإغلاق اليوم بنجاح! (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · +100 نقطة ⭐)`);
+
         if (earnedShield) {
-          successMsg += ` 🛡️ مبروك! حققت 7 شعلات وحصلت على درع حماية إضافي (الدروع: ${shields})!`;
+          successMsg += isFr 
+            ? ` 🛡️ Félicitations ! 7 flammes atteintes = +1 Bouclier de protection (Total: ${shields}) !`
+            : (isEn 
+            ? ` 🛡️ Congratulations! 7 flames reached = +1 Shield (Total: ${shields})!` 
+            : ` 🛡️ مبروك! حققت 7 شعلات وحصلت على درع حماية إضافي (الدروع: ${shields})!`);
         }
         showToast(successMsg);
 
@@ -6344,34 +6405,13 @@
           totalHabits: totalHabits
         };
       } else {
-        // ⚠️ 0 habits completed
-        if (shields > 0) {
-          shields -= 1;
-          playSoundEffect('shield_saved');
-          triggerShieldSavedAnimation(flames, shields, 0, totalHabits);
-          showToast(`🛡️ تم تفعيل درع الحماية تلقائياً لحفظ شعلاتك (${flames} 🔥). (الدروع المتبقية: ${shields})`);
-          checkInLogs[todayStr] = {
-            date: todayStr,
-            status: 'shielded',
-            habitsDone: 0,
-            totalHabits: totalHabits
-          };
-        } else {
-          // No shield and 0 habits done
-          flames = Math.max(0, flames - 1);
-          streak = 0;
-          playSoundEffect('flame_lost');
-          document.body.classList.add('animate-shake-screen');
-          setTimeout(() => document.body.classList.remove('animate-shake-screen'), 600);
-          triggerFlamesLostAnimation(0, totalHabits);
-          showToast(`⚠️ لم تسجل أي عادة لليوم. تمت إعادة تعيين السلسلة.`);
-          checkInLogs[todayStr] = {
-            date: todayStr,
-            status: 'missed',
-            habitsDone: 0,
-            totalHabits: totalHabits
-          };
-        }
+        // ⚠️ Habits not all completed
+        showToast(isFr
+          ? `⚠️ Vous devez terminer toutes vos habitudes (${completedHabitsToday}/${totalHabits}) pour valider le Check-In et recevoir votre flamme 🔥 !`
+          : (isEn
+          ? `⚠️ You must complete all habits (${completedHabitsToday}/${totalHabits}) to Check In and receive your flame 🔥!`
+          : `⚠️ يرجى إكمال جميع عاداتك المحددة (${completedHabitsToday}/${totalHabits}) لتسجيل الحضور وكسب شعلتك 🔥!`));
+        return;
       }
 
       localStorage.setItem('vital_streak', streak.toString());
@@ -6387,13 +6427,14 @@
 
     // 🛡️ USER REPORTS INCOMPLETE / MISSED / REST DAY
     function performMissedOrRestDay() {
+      checkAndApplyDailyHabitsReset();
       if (checkInLogs[todayStr]) {
         showToast('ℹ️ تم تسجيل وإغلاق هذا اليوم بالفعل.');
         return;
       }
 
       const totalHabits = habits.length;
-      const completedHabitsToday = habits.filter(h => h.completed).length;
+      const completedHabitsToday = habits.filter(h => h.completed && h.lastCompletedDate === todayStr).length;
 
       if (shields > 0) {
         // 🛡️ Protected by shield!
@@ -7709,7 +7750,7 @@ DIRECTIVES:
       habits = habits.filter(h => h.id !== id);
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
       renderHabitsManagement();
-      renderHabitsChecklist();
+      renderCustomHabitsSection();
       showToast('✓ تم حذف العادة بنجاح');
     }
 
@@ -7812,7 +7853,7 @@ DIRECTIVES:
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
       playSuccessChime();
       renderHabitsManagement();
-      renderHabitsChecklist();
+      renderCustomHabitsSection();
       closeEditHabitDurationModal();
       showToast(`✓ تم تحديث مدة العادة إلى [ ${formatDurationLabel(finalDays)} ] بنجاح!`);
     }
@@ -8147,6 +8188,7 @@ DIRECTIVES:
         emoji: selectedEmoji || '⚡',
         targetDays: modalNewHabitDuration || 30,
         completed: false,
+        lastCompletedDate: null,
         streak: 0
       };
 
@@ -8155,7 +8197,7 @@ DIRECTIVES:
       document.getElementById('new-habit-title-input').value = '';
       closeAddHabitModal();
       renderHabitsManagement();
-      renderHabitsChecklist();
+      renderCustomHabitsSection();
       showToast(`✓ تمت إضافة العادة بمدة (${formatDurationLabel(newH.targetDays)}) بنجاح!`);
     }
 
@@ -8247,11 +8289,16 @@ DIRECTIVES:
         h.targetDays = Math.max(1, val);
         localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
         renderHabitsManagement();
-        renderHabitsChecklist();
+        renderCustomHabitsSection();
         showToast(`✓ تم تحديث مدة عادة (${h.title}) إلى ${formatDurationLabel(h.targetDays)} بنجاح!`);
       }
       closeEditHabitDurationModal();
     }
+
+    function renderHabitsChecklist() {
+      renderCustomHabitsSection();
+    }
+    window.renderHabitsChecklist = renderHabitsChecklist;
 
     window.openEditChallengeDurationModal = openEditChallengeDurationModal;
     window.closeEditChallengeDurationModal = closeEditChallengeDurationModal;
