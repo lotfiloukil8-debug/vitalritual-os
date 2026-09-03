@@ -6076,7 +6076,7 @@
       showToast('✓ تم حذف العادة بنجاح');
     }
 
-    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today)
+    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today with realtime flames)
     function toggleHabit(id) {
       let justDone = false;
       let habitTitle = '';
@@ -6099,12 +6099,19 @@
       }
 
       if (justDone) {
+        flames += 1;
         points += 50;
       } else {
+        flames = Math.max(0, flames - 1);
         points = Math.max(0, points - 50);
       }
 
+      // Automatically recalculate shields based on 7 flames milestone
+      shields = Math.floor(flames / 7);
+
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
+      localStorage.setItem('vital_flames', flames.toString());
+      localStorage.setItem('vital_shields', shields.toString());
       localStorage.setItem('vital_points', points.toString());
 
       try { saveAccountSyncData(); } catch(e){}
@@ -6116,12 +6123,12 @@
       if (justDone) {
         playSuccessChime();
         if (completedCount === totalCount && totalCount > 0) {
-          showToast(`✨ ممتاز! أتممت جميع عاداتك اليوم (${completedCount}/${totalCount})! اضغط على زر تسجيل اليوم لإغلاق اليوم وكسب الشعلة 🔥`);
+          showToast(`✨ ممتاز! أتممت جميع عاداتك اليوم (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · ${completedCount}/${totalCount})!`);
         } else {
-          showToast(`✓ تم تأكيد إنجاز: ${habitTitle} (+50 نقطة ⭐ · ${completedCount}/${totalCount})`);
+          showToast(`✓ تم تأكيد إنجاز: ${habitTitle} (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · ${completedCount}/${totalCount})`);
         }
       } else {
-        showToast(`↩️ تم إلغاء تحديد: ${habitTitle} (${completedCount}/${totalCount})`);
+        showToast(`↩️ تم إلغاء تحديد: ${habitTitle} (-1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · ${completedCount}/${totalCount})`);
       }
     }
 
