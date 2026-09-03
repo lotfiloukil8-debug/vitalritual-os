@@ -1598,6 +1598,39 @@
             </button>
           </div>
         </div>
+
+        <!-- 4. CHECK-IN CONTROLS & TEST TOOLS -->
+        <div class="bento-card p-6 sm:p-8 space-y-4 border border-cyan-500/40">
+          <div>
+            <h3 class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <span>⚡</span>
+              <span>أدوات اختبار وإعادة تعيين التسجيل (Check-In Tools)</span>
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              يمكنك هنا إعادة فتح تسجيل اليوم أو اختبار إضافة شعلة ونقاط بسهولة.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <button
+              type="button"
+              onclick="resetTodayCheckIn()"
+              class="p-3.5 rounded-2xl bg-cyan-100 dark:bg-cyan-950/80 hover:bg-cyan-200 dark:hover:bg-cyan-900 border border-cyan-300 dark:border-cyan-800 text-cyan-950 dark:text-cyan-200 font-black text-xs transition cursor-pointer flex items-center justify-center gap-2 shadow-2xs"
+            >
+              <span>🔄</span>
+              <span>إلغاء قفل تسجيل اليوم (Débloquer Check-In)</span>
+            </button>
+
+            <button
+              type="button"
+              onclick="debugAddFlame()"
+              class="p-3.5 rounded-2xl bg-rose-100 dark:bg-rose-950/80 hover:bg-rose-200 dark:hover:bg-rose-900 border border-rose-300 dark:border-rose-800 text-rose-950 dark:text-rose-200 font-black text-xs transition cursor-pointer flex items-center justify-center gap-2 shadow-2xs"
+            >
+              <span>🔥</span>
+              <span>إضافة +1 شعلة تجريبية (+1 Test Flame)</span>
+            </button>
+          </div>
+        </div>
       </section>
 
       <!-- 🌟 TAB 6: CHECK-IN HISTORY -->
@@ -6569,91 +6602,119 @@
       if (modal) modal.classList.add('hidden');
     }
 
-    // ⚡ CHECK-IN EXECUTION (Awards 1 Flame and updates Streak & Shield System on 100% completed habits)
+    // ⚡ CHECK-IN EXECUTION (Awards 1 Flame and updates Streak & Shield System on daily Check-In)
     function performDailyCheckIn() {
       checkAndApplyDailyHabitsReset();
       const isFr = currentAppLang === 'fr';
       const isEn = currentAppLang === 'en';
 
-      if (checkInLogs[todayStr]) {
-        showToast(isFr ? '✓ Journée déjà validée et enregistrée !' : (isEn ? '✓ Today is already checked in!' : '✓ تم تسجيل وإغلاق هذا اليوم بالفعل!'));
+      if (checkInLogs[todayStr] && checkInLogs[todayStr].status === 'success') {
+        showToast(isFr ? '✓ Journée déjà validée avec succès !' : (isEn ? '✓ Today is already successfully checked in!' : '✓ تم تسجيل وإغلاق هذا اليوم بنجاح مسبقاً!'));
         return;
       }
 
-      const totalHabits = habits.length;
-      if (totalHabits === 0) {
-        showToast(isFr ? '⚠️ Veuillez ajouter au moins une habitude avant de valider la journée !' : (isEn ? '⚠️ Please add at least one habit before checking in!' : '⚠️ يرجى إضافة عادة واحدة على الأقل قبل تسجيل اليوم!'));
-        return;
+      // Automatically complete all habits for today upon Check-in
+      if (Array.isArray(habits) && habits.length > 0) {
+        habits = habits.map(h => ({
+          ...h,
+          completed: true,
+          lastCompletedDate: todayStr,
+          streak: (h.streak || 0) + 1
+        }));
+        localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
       }
 
-      const completedHabitsToday = habits.filter(h => h.completed && h.lastCompletedDate === todayStr).length;
+      const totalHabits = habits.length || 1;
+      const completedHabitsToday = totalHabits;
 
-      if (completedHabitsToday === totalHabits) {
-        // 🌟 SUCCESS: 1 successful daily Check-in = +1 Flame, +1 Streak Day, +100 PTS bonus
-        const earnedFlames = 1;
-        flames += earnedFlames;
-        streak += 1;
-        if (streak > longestStreak) {
-          longestStreak = streak;
-        }
-        points += 100;
-
-        // 🛡️ Shield Rule: Recovers +1 shield every 7 flames milestone
-        const prevShields = shields;
-        const calculatedShields = Math.floor(flames / 7);
-        if (calculatedShields > shields) {
-          shields = calculatedShields;
-        }
-        const earnedShield = shields > prevShields;
-
-        // 🎬 Trigger Flame Gained Celebration Animation & Sound
-        playSoundEffect('flame_gain');
-        launchConfetti();
-        triggerFlameGainedAnimation(flames, earnedShield, shields);
-
-        let successMsg = isFr 
-          ? `✓ Journée validée avec succès ! (+1 Flamme 🔥 · Total: ${flames} 🔥 · +100 PTS ⭐)`
-          : (isEn 
-          ? `✓ Day successfully logged! (+1 Flame 🔥 · Total: ${flames} 🔥 · +100 PTS ⭐)` 
-          : `✓ تم تسجيل وإغلاق اليوم بنجاح! (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · +100 نقطة ⭐)`);
-
-        if (earnedShield) {
-          successMsg += isFr 
-            ? ` 🛡️ Félicitations ! 7 flammes atteintes = +1 Bouclier de protection (Total: ${shields}) !`
-            : (isEn 
-            ? ` 🛡️ Congratulations! 7 flames reached = +1 Shield (Total: ${shields})!` 
-            : ` 🛡️ مبروك! حققت 7 شعلات وحصلت على درع حماية إضافي (الدروع: ${shields})!`);
-        }
-        showToast(successMsg);
-
-        checkInLogs[todayStr] = {
-          date: todayStr,
-          status: 'success',
-          habitsDone: completedHabitsToday,
-          totalHabits: totalHabits
-        };
-      } else {
-        // ⚠️ Habits not all completed
-        showToast(isFr
-          ? `⚠️ Vous devez terminer toutes vos habitudes (${completedHabitsToday}/${totalHabits}) pour valider le Check-In et recevoir votre flamme 🔥 !`
-          : (isEn
-          ? `⚠️ You must complete all habits (${completedHabitsToday}/${totalHabits}) to Check In and receive your flame 🔥!`
-          : `⚠️ يرجى إكمال جميع عاداتك المحددة (${completedHabitsToday}/${totalHabits}) لتسجيل الحضور وكسب شعلتك 🔥!`));
-        return;
+      // 🌟 SUCCESS: 1 successful daily Check-in = +1 Flame, +1 Streak Day, +100 PTS bonus
+      const earnedFlames = 1;
+      flames += earnedFlames;
+      streak += 1;
+      if (streak > longestStreak) {
+        longestStreak = streak;
       }
+      points += 100;
 
+      // 🛡️ Shield Rule: Recovers +1 shield every 7 flames milestone (flames / 7)
+      const prevShields = shields;
+      const calculatedShields = Math.floor(flames / 7);
+      if (calculatedShields > shields) {
+        shields = calculatedShields;
+      }
+      const earnedShield = shields > prevShields;
+
+      // Save to localStorage immediately
       localStorage.setItem('vital_streak', streak.toString());
       localStorage.setItem('vital_longest_streak', longestStreak.toString());
       localStorage.setItem('vital_shields', shields.toString());
       localStorage.setItem('vital_points', points.toString());
       localStorage.setItem('vital_flames', flames.toString());
+
+      checkInLogs[todayStr] = {
+        date: todayStr,
+        status: 'success',
+        habitsDone: completedHabitsToday,
+        totalHabits: totalHabits
+      };
       localStorage.setItem('vital_checkin_logs', JSON.stringify(checkInLogs));
 
       try { advanceDuelOnCheckIn(); } catch(e) {}
+      try { saveAccountSyncData(); } catch(e) {}
 
-      saveAccountSyncData();
+      // 🎬 Trigger Flame Gained Celebration Animation & Sound
+      playSoundEffect('flame_gain');
+      launchConfetti();
+      triggerFlameGainedAnimation(flames, earnedShield, shields);
+
+      let successMsg = isFr 
+        ? `✓ Journée validée avec succès ! (+1 Flamme 🔥 · Total: ${flames} 🔥 · +100 PTS ⭐)`
+        : (isEn 
+        ? `✓ Day successfully logged! (+1 Flame 🔥 · Total: ${flames} 🔥 · +100 PTS ⭐)` 
+        : `✓ تم تسجيل وإغلاق اليوم بنجاح! (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · +100 نقطة ⭐)`);
+
+      if (earnedShield) {
+        successMsg += isFr 
+          ? ` 🛡️ Félicitations ! 7 flammes atteintes = +1 Bouclier de protection (Total: ${shields}) !`
+          : (isEn 
+          ? ` 🛡️ Congratulations! 7 flames reached = +1 Shield (Total: ${shields})!` 
+          : ` 🛡️ مبروك! حققت 7 شعلات وحصلت على درع حماية إضافي (الدروع: ${shields})!`);
+      }
       renderAll();
     }
+
+    function resetTodayCheckIn() {
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+      delete checkInLogs[todayStr];
+      localStorage.setItem('vital_checkin_logs', JSON.stringify(checkInLogs));
+      if (Array.isArray(habits)) {
+        habits = habits.map(h => ({ ...h, completed: false, lastCompletedDate: null }));
+        localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
+      }
+      renderAll();
+      playSuccessChime();
+      showToast(isFr ? "✓ Le Check-in d'aujourd'hui a été débloqué ! Vous pouvez valider à nouveau." : (isEn ? "✓ Today's check-in unlocked! You can check in now." : "✓ تم إلغاء قفل تسجيل اليوم! يمكنك تسجيل حضورك الآن."));
+    }
+
+    function debugAddFlame() {
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+      flames += 1;
+      streak += 1;
+      points += 100;
+      shields = Math.floor(flames / 7);
+      localStorage.setItem('vital_flames', flames.toString());
+      localStorage.setItem('vital_streak', streak.toString());
+      localStorage.setItem('vital_shields', shields.toString());
+      localStorage.setItem('vital_points', points.toString());
+      renderAll();
+      playSuccessChime();
+      launchConfetti();
+      showToast(isFr ? `🔥 +1 Flamme ajoutée ! (Total: ${flames} 🔥)` : (isEn ? `🔥 +1 Flame added! (Total: ${flames} 🔥)` : `🔥 تمت إضافة +1 شعلة بنجاح! (الإجمالي: ${flames} 🔥)`));
+    }
+    window.resetTodayCheckIn = resetTodayCheckIn;
+    window.debugAddFlame = debugAddFlame;
 
     // 🛡️ USER REPORTS INCOMPLETE / MISSED / REST DAY
     function performMissedOrRestDay() {
