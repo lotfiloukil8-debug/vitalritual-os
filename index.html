@@ -6075,7 +6075,7 @@
     }
 
     function deleteHabitDirect(id) {
-      habits = habits.filter(h => h.id !== id);
+      habits = habits.filter(h => String(h.id) !== String(id));
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
       renderCustomHabitsSection();
       renderHabitsManagement();
@@ -6086,8 +6086,10 @@
     function toggleHabit(id) {
       let justDone = false;
       let habitTitle = '';
+      let found = false;
       habits = habits.map(h => {
-        if (h.id === id) {
+        if (String(h.id) === String(id) || h.id == id) {
+          found = true;
           const nextDone = !h.completed;
           justDone = nextDone;
           habitTitle = h.title;
@@ -6096,6 +6098,11 @@
         }
         return h;
       });
+
+      if (!found) {
+        console.warn('Habit not found for id:', id);
+        return;
+      }
 
       if (justDone) {
         points += 50;
@@ -6106,7 +6113,7 @@
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
       localStorage.setItem('vital_points', points.toString());
 
-      saveAccountSyncData();
+      try { saveAccountSyncData(); } catch(e){}
       renderAll();
 
       const completedCount = habits.filter(h => h.completed).length;
@@ -7053,7 +7060,7 @@ DIRECTIVES:
 
     function deleteHabit(id) {
       const t = TRANSLATIONS[currentAppLang] || TRANSLATIONS.ar;
-      habits = habits.filter(h => h.id !== id);
+      habits = habits.filter(h => String(h.id) !== String(id));
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
       renderHabitsManagement();
       renderCustomHabitsSection();
