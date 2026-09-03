@@ -229,15 +229,22 @@
       </div>
 
       <!-- Action & Skip Button Container -->
-      <div id="video-action-container" class="flex items-center justify-center pt-2">
+      <div id="video-action-container" class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <button
+          type="button"
+          onclick="showFlowStep('main-app')"
+          class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 hover:from-cyan-400 hover:to-emerald-300 text-slate-950 font-black text-sm uppercase shadow-xl shadow-cyan-500/25 hover:scale-105 transition cursor-pointer flex items-center justify-center gap-2"
+        >
+          <span>🚀 الدخول المباشر للوحة التحكم (Dashboard)</span>
+        </button>
+
         <button
           type="button"
           id="btn-skip-video"
           onclick="proceedFromVideoToAuth()"
-          class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 hover:from-cyan-400 hover:to-emerald-300 text-slate-950 font-black text-sm uppercase shadow-xl shadow-cyan-500/25 hover:scale-105 transition cursor-pointer flex items-center justify-center gap-2"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs shadow-md transition hover:scale-105 cursor-pointer flex items-center justify-center gap-2"
         >
-          <span id="btn-skip-video-text">تسجيل الدخول / إنشاء حساب</span>
-          <span class="text-base">👤</span>
+          <span id="btn-skip-video-text">تسجيل الدخول / إنشاء حساب 👤</span>
         </button>
       </div>
     </div>
@@ -4184,9 +4191,9 @@
       if (!playerWrapper) return;
 
       const videoPathsMap = {
-        ar: ['video/arabe.mp4', 'videos/arabe.mp4', './video/arabe.mp4', './videos/arabe.mp4'],
-        en: ['video/english.mp4', 'videos/english.mp4', './video/english.mp4', './videos/english.mp4'],
-        fr: ['video/francais.mp4', 'videos/francais.mp4', './video/francais.mp4', './videos/francais.mp4']
+        ar: ['/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
+        en: ['/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
+        fr: ['/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
       };
 
       const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentVideoLanguage])
@@ -4196,7 +4203,7 @@
       const defaultUrl = (adminConfig.videoUrl || '').trim();
       const fallbacks = videoPathsMap[currentVideoLanguage] || videoPathsMap.ar;
       const allSources = [customLangUrl, defaultUrl, ...fallbacks].filter((v, i, a) => v && v.length > 0 && a.indexOf(v) === i);
-      const primarySrc = allSources[0] || 'video/arabe.mp4';
+      const primarySrc = allSources[0] || '/video/arabe.mp4';
 
       const ytMatch = primarySrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
       if (ytMatch && ytMatch[1]) {
@@ -4217,10 +4224,9 @@
             id="explainer-video-player"
             controls
             playsinline
-            preload="metadata"
+            webkit-playsinline
+            preload="auto"
             class="w-full h-full rounded-2xl object-contain bg-black shadow-inner"
-            src="${primarySrc}"
-            onerror="window.handleExplainerVideoError(this)"
           >
             ${sourcesHtml}
             Your browser does not support HTML5 video.
@@ -4373,9 +4379,9 @@
       if (!box) return;
 
       const videoPathsMap = {
-        ar: ['video/arabe.mp4', 'videos/arabe.mp4', './video/arabe.mp4', './videos/arabe.mp4'],
-        en: ['video/english.mp4', 'videos/english.mp4', './video/english.mp4', './videos/english.mp4'],
-        fr: ['video/francais.mp4', 'videos/francais.mp4', './video/francais.mp4', './videos/francais.mp4']
+        ar: ['/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
+        en: ['/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
+        fr: ['/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
       };
 
       const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentModalVideoLang])
@@ -4385,7 +4391,7 @@
       const defaultUrl = (adminConfig.videoUrl || '').trim();
       const fallbacks = videoPathsMap[currentModalVideoLang] || videoPathsMap.ar;
       const allSources = [customLangUrl, defaultUrl, ...fallbacks].filter((v, i, a) => v && v.length > 0 && a.indexOf(v) === i);
-      const primarySrc = allSources[0] || 'video/arabe.mp4';
+      const primarySrc = allSources[0] || '/video/arabe.mp4';
 
       const ytMatch = primarySrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
       if (ytMatch && ytMatch[1]) {
@@ -4407,10 +4413,9 @@
             controls
             autoplay
             playsinline
-            preload="metadata"
+            webkit-playsinline
+            preload="auto"
             class="w-full h-full rounded-2xl object-contain bg-black shadow-inner"
-            src="${primarySrc}"
-            onerror="window.handleExplainerVideoError(this)"
           >
             ${sourcesHtml}
             Your browser does not support HTML5 video.
