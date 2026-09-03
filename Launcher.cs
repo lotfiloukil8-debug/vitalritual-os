@@ -21,8 +21,9 @@ namespace VitalRitual
                 }
 
                 string htmlPath = Path.Combine(appDataDir, "index.html");
+                bool extracted = false;
 
-                // 1. Try to extract latest embedded index.html resource
+                // 1. Extract latest embedded index.html resource
                 try
                 {
                     Assembly assembly = Assembly.GetExecutingAssembly();
@@ -34,16 +35,20 @@ namespace VitalRitual
                             {
                                 stream.CopyTo(fs);
                             }
+                            extracted = true;
                         }
                     }
                 }
                 catch {}
 
-                // 2. Check adjacent local index.html if available
-                string localHtml = Path.Combine(baseDir, "index.html");
-                if (File.Exists(localHtml))
+                // 2. Fallback to adjacent local index.html if extraction was not available
+                if (!extracted)
                 {
-                    htmlPath = localHtml;
+                    string localHtml = Path.Combine(baseDir, "index.html");
+                    if (File.Exists(localHtml))
+                    {
+                        htmlPath = localHtml;
+                    }
                 }
 
                 if (!File.Exists(htmlPath))

@@ -6082,7 +6082,7 @@
       showToast('✓ تم حذف العادة بنجاح');
     }
 
-    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today with realtime flames)
+    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today)
     function toggleHabit(id) {
       let justDone = false;
       let habitTitle = '';
@@ -6098,20 +6098,13 @@
       });
 
       if (justDone) {
-        flames += 1;
         points += 50;
       } else {
-        flames = Math.max(0, flames - 1);
         points = Math.max(0, points - 50);
       }
 
-      // Automatically update shields based on 7 flames milestone
-      shields = Math.floor(flames / 7);
-
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
-      localStorage.setItem('vital_flames', flames.toString());
       localStorage.setItem('vital_points', points.toString());
-      localStorage.setItem('vital_shields', shields.toString());
 
       saveAccountSyncData();
       renderAll();
@@ -6122,9 +6115,9 @@
       if (justDone) {
         playSuccessChime();
         if (completedCount === totalCount && totalCount > 0) {
-          showToast(`✨ ممتاز! أتممت جميع عاداتك اليوم (+1 شعلة 🔥 · ${completedCount}/${totalCount})!`);
+          showToast(`✨ ممتاز! أتممت جميع عاداتك اليوم (${completedCount}/${totalCount})! اضغط على زر تسجيل اليوم لإغلاق اليوم وكسب الشعلة 🔥`);
         } else {
-          showToast(`✓ تم تأكيد إنجاز: ${habitTitle} (+1 شعلة 🔥 · ${completedCount}/${totalCount})`);
+          showToast(`✓ تم تأكيد إنجاز: ${habitTitle} (+50 نقطة ⭐ · ${completedCount}/${totalCount})`);
         }
       } else {
         showToast(`↩️ تم إلغاء تحديد: ${habitTitle} (${completedCount}/${totalCount})`);
@@ -6308,14 +6301,14 @@
       const completedHabitsToday = habits.filter(h => h.completed).length;
 
       if (completedHabitsToday > 0) {
-        // 🌟 SUCCESS: Earn flames for completed habits
-        const earnedFlames = Math.max(1, completedHabitsToday);
+        // 🌟 SUCCESS: 1 successful daily Check-in = +1 Flame, +1 Streak Day, +100 PTS bonus
+        const earnedFlames = 1;
         flames += earnedFlames;
         streak += 1;
         if (streak > longestStreak) {
           longestStreak = streak;
         }
-        points += (completedHabitsToday * 50) + 100;
+        points += 100;
 
         // 🛡️ Shield Rule: Recovers +1 shield every 7 flames
         const prevShields = shields;
@@ -6330,7 +6323,7 @@
         launchConfetti();
         triggerFlameGainedAnimation(flames, earnedShield, shields);
 
-        let successMsg = `✓ تم تسجيل اليوم بنجاح! (+${earnedFlames} شعلة 🔥 · الإجمالي: ${flames} 🔥 · +${(completedHabitsToday * 50) + 100} نقطة ⭐)`;
+        let successMsg = `✓ تم تسجيل وإغلاق اليوم بنجاح! (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · +100 نقطة ⭐)`;
         if (earnedShield) {
           successMsg += ` 🛡️ مبروك! حققت 7 شعلات وحصلت على درع حماية إضافي (الدروع: ${shields})!`;
         }
