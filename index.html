@@ -2536,10 +2536,10 @@
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق الكمبيوتر لويندوز (Windows .EXE)</h4>
-                  <span class="px-2 py-0.5 rounded-full bg-blue-500 text-white font-black text-[9px]">تطبيق أصلي ⭐</span>
+                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق ويندوز للكمبيوتر (Windows .EXE)</h4>
+                  <span class="px-2 py-0.5 rounded-full bg-blue-500 text-white font-black text-[9px]">Windows 10/11 ⭐</span>
                 </div>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">تطبيق حقيقي مستقل (.exe) يعمل على وينdوز 10/11 بدون متصفح وبحفظ تلقائي</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">تطبيق حقيقي مستقل (.exe) يعمل بدون متصفح وبحفظ تلقائي</p>
               </div>
             </div>
             <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
@@ -2562,6 +2562,30 @@
             </div>
           </div>
 
+          <!-- 🍎 Mac OS (Apple Silicon & Intel) Native App Card -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-100 via-gray-100 to-zinc-200 dark:from-slate-800/80 dark:via-gray-800/80 dark:to-zinc-800/80 border-2 border-slate-400/80 dark:border-slate-600 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
+            <div class="flex items-center gap-3 text-right">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-900 via-slate-800 to-zinc-900 text-white text-2xl flex items-center justify-center font-bold shadow-md shrink-0">
+                🍎
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق أجهزة ماك (macOS App)</h4>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-800 text-white font-black text-[9px]">M1/M2/M3/M4 & Intel ⚡</span>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">تثبيت فوري في مجلد Applications وشريط Dock كنافذة مستقلة فائقة السرعة</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onclick="installMacApp()"
+              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black text-xs transition hover:scale-105 cursor-pointer shadow-md flex items-center justify-center gap-1.5 shrink-0"
+            >
+              <span>🍎</span>
+              <span>تثبيت على Mac</span>
+            </button>
+          </div>
+
           <!-- 📱 1-Click Instant PWA Installation Card (Mobile & Desktop) -->
           <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-50 via-teal-50 to-emerald-50 dark:from-cyan-950/50 dark:via-teal-950/40 dark:to-emerald-950/40 border border-cyan-300 dark:border-cyan-800 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3 text-right">
@@ -2569,8 +2593,8 @@
                 📲
               </div>
               <div>
-                <h4 class="text-xs font-black text-slate-900 dark:text-white">تثبيت التطبيق على الهاتف (PWA App)</h4>
-                <p class="text-[10px] text-slate-600 dark:text-slate-400">تثبيت فوري على شاشة أندرويد وآيفون بدون متجر</p>
+                <h4 class="text-xs font-black text-slate-900 dark:text-white">تثبيت التطبيق على الهاتف (أندرويد وآيفون)</h4>
+                <p class="text-[10px] text-slate-600 dark:text-slate-400">تثبيت فوري على شاشة الهاتف بدون متجر وبوضع عدم الاتصال</p>
               </div>
             </div>
             <button
@@ -8078,12 +8102,36 @@ DIRECTIVES:
       document.body.removeChild(a);
     }
 
+    function installMacApp() {
+      if (deferredPwaPrompt) {
+        installPwaApp();
+      } else {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent || '');
+        if (isSafari) {
+          showToast('🍏 في Safari على Mac: اضغط قائمة Fichier ثم Ajouter au Dock ➕');
+          alert('لتثبيت VitalRitual على نظام Mac OS (Safari):\n1. في شريط القوائم العلوي، اضغط على "Fichier" (File).\n2. اختر "Ajouter au Dock" (Add to Dock ➕).\n3. سيتم تثبيت التطبيق فوراً في مجلد Applications وشريط Dock كنافذة مستقلة وسريعة!');
+        } else {
+          showToast('🍏 في Chrome/Edge: اضغط أيقونة التثبيت ⊕ في شريط العنوان');
+          alert('لتثبيت VitalRitual على نظام Mac OS:\n1. اضغط على أيقونة التثبيت ⊕ في شريط العنوان أو قائمة المتصفح (⋮).\n2. اختر "Install VitalRitual" (تثبيت التطبيق).\n3. سيتم إنشاء تطبيق Mac مخصص في Applications مع حفظ البيانات أوتوماتيكياً!');
+        }
+      }
+    }
+
     function handleSmartAppDownload() {
       const ua = (navigator.userAgent || '').toLowerCase();
+      const isMac = /macintosh|mac os x/i.test(ua);
+      const isWindows = /windows|win32/i.test(ua);
       const isMobile = /android|iphone|ipad|ipod/i.test(ua);
-      if (!isMobile) {
+
+      if (isWindows) {
         // Direct 1-Click native Windows .exe download on desktop
         downloadWindowsApp();
+      } else if (isMac) {
+        if (deferredPwaPrompt) {
+          installPwaApp();
+        } else {
+          openMediafireModal();
+        }
       } else if (deferredPwaPrompt) {
         installPwaApp();
       } else {
@@ -8765,6 +8813,7 @@ DIRECTIVES:
     window.downloadDirectHtmlFile = downloadDirectHtmlFile;
     window.handleSmartAppDownload = handleSmartAppDownload;
     window.installPwaApp = installPwaApp;
+    window.installMacApp = installMacApp;
     window.exitAdminPanel = exitAdminPanel;
     window.filterBadges = filterBadges;
     window.handleSecretAdminClick = handleSecretAdminClick;
