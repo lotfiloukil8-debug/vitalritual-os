@@ -709,20 +709,18 @@
           <span id="nav-story-btn-title" class="inline-block font-black whitespace-nowrap">توليد بطاقة ستوري</span>
         </button>
 
-        <!-- 📲 SMART DIRECT DOWNLOAD BUTTON -->
+        <!-- 🔄 ACCOUNT SYNC BUTTON (SYNC BETWEEN APP & WEB) -->
         <button
           type="button"
-          onclick="handleSmartAppDownload()"
-          id="btn-nav-mediafire-download"
-          class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-500 hover:from-blue-500 hover:to-teal-400 text-white font-black text-xs shadow-md shadow-cyan-500/20 transition-all hover:scale-105 cursor-pointer border border-cyan-300/30"
-          title="تحميل التطبيق عبر MediaFire"
+          onclick="openAccountSyncModal()"
+          id="btn-nav-account-sync"
+          class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white font-black text-xs shadow-md shadow-teal-500/20 transition-all hover:scale-105 cursor-pointer border border-teal-300/30"
+          title="مزامنة الحساب والبيانات بين التطبيق والموقع (Sync)"
         >
           <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="14" height="20" x="5" y="2" rx="3"/>
-            <path d="M12 18h.01"/>
-            <path d="M12 6v6m-3-3 3 3 3-3"/>
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
           </svg>
-          <span id="nav-mediafire-btn-title" class="inline-block font-black whitespace-nowrap">تحميل التطبيق</span>
+          <span id="nav-sync-btn-title" class="inline-block font-black whitespace-nowrap">مزامنة الحساب (Sync) 🔄</span>
         </button>
 
         <!-- 🌐 3-LANGUAGE TRANSLATION SWITCHER (AR / EN / FR) -->
@@ -2507,144 +2505,111 @@
       </div>
     </div>
 
-    <!-- ════════════════════ 📲 MULTI-PLATFORM DOWNLOAD MODAL ════════════════════ -->
-    <div id="modal-mediafire" class="app-modal hidden fixed inset-0 z-[9998] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-popIn overflow-y-auto">
-      <div class="relative w-full max-w-lg bento-card p-6 sm:p-8 space-y-5 text-slate-900 dark:text-white my-auto shadow-2xl">
-        <div class="flex justify-between items-center pb-2 border-b border-slate-300 dark:border-slate-700">
+    <!-- ════════════════════ 🔄 ACCOUNT SYNC MODAL (APP <-> WEB) ════════════════════ -->
+    <div id="modal-account-sync" class="app-modal hidden fixed inset-0 z-[9998] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-popIn overflow-y-auto">
+      <div class="relative w-full max-w-lg bento-card p-6 sm:p-8 space-y-5 text-slate-900 dark:text-white my-auto shadow-2xl border-2 border-cyan-500/80 overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-60 h-60 rounded-full bg-cyan-500/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-60 h-60 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"></div>
+
+        <div class="flex justify-between items-center pb-3 border-b border-slate-300 dark:border-slate-700">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 via-cyan-600 to-teal-500 text-white flex items-center justify-center shadow-lg shadow-cyan-500/30">
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="14" height="20" x="5" y="2" rx="3"/>
-                <path d="M12 18h.01"/>
-                <path d="M12 6v6m-3-3 3 3 3-3"/>
-              </svg>
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 font-black text-2xl flex items-center justify-center shadow-lg shadow-cyan-500/30 shrink-0">
+              🔄
             </div>
             <div>
-              <h3 class="text-base font-black">تحميل تطبيق VitalRitual على هاتفك</h3>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">اختر نظام تشغيل هاتفك لتحميل التطبيق مباشرة</p>
+              <h3 class="text-base sm:text-lg font-black">مزامنة الحساب بين التطبيق والموقع</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">انقل كل شعلاتك وعاداتك وسجلاتك بضغطة واحدة بين الكمبيوتر وموقع الويب</p>
             </div>
           </div>
-          <button onclick="closeMediafireModal()" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 cursor-pointer">✕</button>
+          <button type="button" onclick="closeAccountSyncModal()" class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 cursor-pointer">✕</button>
         </div>
 
-        <div class="space-y-3.5 text-xs">
-          <!-- 💻 Windows PC Native Application (.EXE) & (.ZIP) Download Card -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/40 dark:via-indigo-950/40 dark:to-purple-950/40 border-2 border-blue-400/80 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
-            <div class="flex items-center gap-3 text-right">
-              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white text-2xl flex items-center justify-center font-bold shadow-md shadow-blue-500/25 shrink-0">
-                💻
-              </div>
-              <div>
-                <div class="flex items-center gap-2">
-                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق ويندوز للكمبيوتر (Windows .EXE)</h4>
-                  <span class="px-2 py-0.5 rounded-full bg-blue-500 text-white font-black text-[9px]">Windows 10/11 ⭐</span>
-                </div>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">تطبيق حقيقي مستقل (.exe) يعمل بدون متصفح وبحفظ تلقائي</p>
-              </div>
+        <!-- Active User Status Card -->
+        <div class="p-3.5 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-teal-500/10 to-emerald-500/10 border border-cyan-400/50 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <div id="sync-user-avatar" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-teal-400 flex items-center justify-center text-xl shadow-xs shrink-0">
+              🦁
             </div>
-            <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+            <div>
+              <span id="sync-user-name" class="text-xs font-black block text-slate-900 dark:text-white">أحمد بطل الانضباط</span>
+              <span id="sync-user-stats" class="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 font-bold">14 🔥 · 7d ⚡ · 1,200 ⭐</span>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-black border border-emerald-300 dark:border-emerald-800">
+            جاهز للمزامنة ✓
+          </span>
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <!-- Method 1: Instant Sync Code (كود المزامنة الفوري) -->
+          <div class="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-cyan-400/80 space-y-3 shadow-xs">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                <span>🔑</span>
+                <span>المزامنة الفورية عبر كود المزامنة (Sync Code):</span>
+              </h4>
+            </div>
+
+            <!-- Step A: Export / Copy Code -->
+            <div class="space-y-1.5">
               <button
                 type="button"
-                onclick="downloadWindowsApp()"
-                class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs transition hover:scale-105 cursor-pointer shadow-md flex items-center justify-center gap-1.5 shrink-0"
+                onclick="copySyncToken()"
+                class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 hover:to-teal-300 text-slate-950 font-black text-xs shadow-md transition hover:scale-102 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>⬇️</span>
-                <span>تحميل EXE</span>
+                <span>📋</span>
+                <span>نسخ كود مزامنة حسابك الحالي (Copy Code)</span>
               </button>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 text-center">انسخ هذا الكود من جهازك الأول والصقه في جهازك الثاني لنقل بياناتك فوراً</p>
+            </div>
+
+            <!-- Step B: Import / Paste Code -->
+            <div class="space-y-2 pt-1 border-t border-slate-200 dark:border-slate-800">
+              <label class="text-[11px] font-bold text-slate-700 dark:text-slate-300 block">لصق كود تم نسخه من جهاز آخر لاستيراده هنا:</label>
+              <div class="flex gap-2">
+                <input
+                  type="text"
+                  id="input-sync-token"
+                  placeholder="الصق كود المزامنة هنا (VR_SYNC_...)..."
+                  class="flex-1 px-3 py-2 rounded-xl bg-[#FAFCFF] dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs text-slate-900 dark:text-white font-mono focus:border-cyan-500"
+                />
+                <button
+                  type="button"
+                  onclick="applyPastedSyncToken()"
+                  class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition cursor-pointer shrink-0"
+                >
+                  تطبيق المزامنة 📥
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Method 2: Backup File (.JSON) -->
+          <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>
+              <h5 class="text-xs font-black text-slate-900 dark:text-white">ملف النسخة الاحتياطية (Backup File)</h5>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400">حفظ أو استرجاع ملف كامل يحتوي على كل السجلات</p>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto">
               <button
                 type="button"
-                onclick="downloadWindowsZip()"
-                class="flex-1 sm:flex-initial px-3.5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition cursor-pointer shrink-0"
-                title="تحميل حزمة مضغوطة ZIP"
+                onclick="exportAccountBackupFile()"
+                class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-xs hover:bg-slate-300 cursor-pointer"
               >
-                <span>📦 ZIP</span>
+                💾 حفظ ملف
               </button>
+              <label class="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-cyan-600 text-white font-bold text-xs hover:bg-cyan-500 cursor-pointer text-center flex items-center justify-center">
+                📂 استيراد ملف
+                <input type="file" accept=".json" onchange="importAccountBackupFile(event)" class="hidden" />
+              </label>
             </div>
-          </div>
-
-          <!-- 🍎 Mac OS (Apple Silicon & Intel) Native App Card -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-100 via-gray-100 to-zinc-200 dark:from-slate-800/80 dark:via-gray-800/80 dark:to-zinc-800/80 border-2 border-slate-400/80 dark:border-slate-600 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
-            <div class="flex items-center gap-3 text-right">
-              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-900 via-slate-800 to-zinc-900 text-white text-2xl flex items-center justify-center font-bold shadow-md shrink-0">
-                🍎
-              </div>
-              <div>
-                <div class="flex items-center gap-2">
-                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق أجهزة ماك (macOS App)</h4>
-                  <span class="px-2 py-0.5 rounded-full bg-slate-800 text-white font-black text-[9px]">M1/M2/M3/M4 & Intel ⚡</span>
-                </div>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">تثبيت فوري في مجلد Applications وشريط Dock كنافذة مستقلة فائقة السرعة</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onclick="installMacApp()"
-              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-black text-xs transition hover:scale-105 cursor-pointer shadow-md flex items-center justify-center gap-1.5 shrink-0"
-            >
-              <span>🍎</span>
-              <span>تثبيت على Mac</span>
-            </button>
-          </div>
-
-          <!-- 📱 1-Click Instant PWA Installation Card (Mobile & Desktop) -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-50 via-teal-50 to-emerald-50 dark:from-cyan-950/50 dark:via-teal-950/40 dark:to-emerald-950/40 border border-cyan-300 dark:border-cyan-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-3 text-right">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 text-xl flex items-center justify-center font-bold shadow-sm shrink-0">
-                📲
-              </div>
-              <div>
-                <h4 class="text-xs font-black text-slate-900 dark:text-white">تثبيت التطبيق على الهاتف (أندرويد وآيفون)</h4>
-                <p class="text-[10px] text-slate-600 dark:text-slate-400">تثبيت فوري على شاشة الهاتف بدون متجر وبوضع عدم الاتصال</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              id="btn-pwa-modal-install"
-              onclick="installPwaApp()"
-              class="w-full sm:w-auto px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs transition cursor-pointer flex items-center justify-center gap-1.5 shrink-0"
-            >
-              <span>📲</span>
-              <span>تثبيت الهاتف</span>
-            </button>
-          </div>
-
-          <!-- 💻 Standalone Web App / Direct HTML Offline Download -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800/60 dark:to-slate-900/60 border border-slate-300 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-3 text-right">
-              <div class="w-10 h-10 rounded-xl bg-slate-300 dark:bg-slate-700 text-slate-900 dark:text-white text-xl flex items-center justify-center font-bold shadow-xs shrink-0">
-                💾
-              </div>
-              <div>
-                <h4 class="text-xs font-black text-slate-900 dark:text-white">تحميل ملف التطبيق المستقل (HTML Offline)</h4>
-                <p class="text-[10px] text-slate-500 dark:text-slate-400">تنزيل نسخة تعمل بدون إنترنت وبدون تثبيت على أي جهاز</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onclick="downloadDirectHtmlFile()"
-              class="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 font-bold text-xs hover:opacity-90 transition cursor-pointer shrink-0 shadow-xs"
-            >
-              <span>📥 تنزيل HTML</span>
-            </button>
-          </div>
-
-          <!-- MediaFire Direct Hub Button -->
-          <div class="pt-1 text-center">
-            <button
-              type="button"
-              onclick="openMediafireDirect()"
-              class="text-xs font-bold text-cyan-600 dark:text-cyan-400 hover:underline cursor-pointer flex items-center justify-center gap-1 mx-auto"
-            >
-              <span>🚀</span>
-              <span>الانتقال المباشر لصفحة MediaFire الشاملة</span>
-            </button>
           </div>
         </div>
 
         <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-left">
           <button
             type="button"
-            onclick="closeMediafireModal()"
+            onclick="closeAccountSyncModal()"
             class="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-xs hover:bg-slate-200 cursor-pointer"
           >
             إغلاق النافذة
@@ -4184,9 +4149,9 @@
       if (!playerWrapper) return;
 
       const videoPathsMap = {
-        ar: ['/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
-        en: ['/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
-        fr: ['/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
+        ar: ['https://vitalritual-os.vercel.app/video/arabe.mp4', '/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
+        en: ['https://vitalritual-os.vercel.app/video/english.mp4', '/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
+        fr: ['https://vitalritual-os.vercel.app/video/francais.mp4', '/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
       };
 
       const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentVideoLanguage])
@@ -4372,9 +4337,9 @@
       if (!box) return;
 
       const videoPathsMap = {
-        ar: ['/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
-        en: ['/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
-        fr: ['/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
+        ar: ['https://vitalritual-os.vercel.app/video/arabe.mp4', '/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
+        en: ['https://vitalritual-os.vercel.app/video/english.mp4', '/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
+        fr: ['https://vitalritual-os.vercel.app/video/francais.mp4', '/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
       };
 
       const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentModalVideoLang])
@@ -8115,49 +8080,167 @@ DIRECTIVES:
       }
     }
 
-    function handleSmartAppDownload() {
-      const ua = (navigator.userAgent || '').toLowerCase();
-      const isMac = /macintosh|mac os x/i.test(ua);
-      const isWindows = /windows|win32/i.test(ua);
-      const isMobile = /android|iphone|ipad|ipod/i.test(ua);
+    // 🔄 ACCOUNT SYNCHRONIZATION ENGINE (APP <-> WEB)
+    function openAccountSyncModal() {
+      const modal = document.getElementById('modal-account-sync');
+      if (!modal) return;
+      const avatarEl = document.getElementById('sync-user-avatar');
+      const nameEl = document.getElementById('sync-user-name');
+      const statsEl = document.getElementById('sync-user-stats');
+      if (avatarEl) avatarEl.textContent = currentUser.avatar || '🦁';
+      if (nameEl) nameEl.textContent = currentUser.name || 'بطل الانضباط';
+      if (statsEl) statsEl.textContent = `${flames} 🔥 · ${streak}d ⚡ · ${points.toLocaleString()} ⭐ · ${habits.length} عادات`;
+      modal.classList.remove('hidden');
+    }
 
-      if (isWindows) {
-        // Direct 1-Click native Windows .exe download on desktop
-        downloadWindowsApp();
-      } else if (isMac) {
-        if (deferredPwaPrompt) {
-          installPwaApp();
+    function closeAccountSyncModal() {
+      const modal = document.getElementById('modal-account-sync');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function generateAccountSyncBundle() {
+      return {
+        v: 2,
+        exportedAt: new Date().toISOString(),
+        currentUser: currentUser,
+        habits: habits,
+        checkInLogs: checkInLogs,
+        flames: flames,
+        streak: streak,
+        longestStreak: longestStreak,
+        shields: shields,
+        points: points,
+        waterCups: waterCups,
+        challengePlan: challengePlan,
+        registeredUsers: registeredUsers
+      };
+    }
+
+    function applyAccountSyncBundle(bundle) {
+      if (!bundle || typeof bundle !== 'object') throw new Error('بيانات المزامنة غير صالحة');
+      if (bundle.currentUser) {
+        currentUser = { ...currentUser, ...bundle.currentUser };
+        localStorage.setItem('vital_user_profile', JSON.stringify(currentUser));
+      }
+      if (Array.isArray(bundle.habits)) {
+        habits = bundle.habits;
+        localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
+      }
+      if (bundle.checkInLogs && typeof bundle.checkInLogs === 'object') {
+        checkInLogs = bundle.checkInLogs;
+        localStorage.setItem('vital_checkin_logs', JSON.stringify(checkInLogs));
+      }
+      if (typeof bundle.flames === 'number') {
+        flames = bundle.flames;
+        localStorage.setItem('vital_flames', flames.toString());
+      }
+      if (typeof bundle.streak === 'number') {
+        streak = bundle.streak;
+        localStorage.setItem('vital_streak', streak.toString());
+      }
+      if (typeof bundle.longestStreak === 'number') {
+        longestStreak = bundle.longestStreak;
+        localStorage.setItem('vital_longest_streak', longestStreak.toString());
+      }
+      if (typeof bundle.shields === 'number') {
+        shields = bundle.shields;
+        localStorage.setItem('vital_shields', shields.toString());
+      }
+      if (typeof bundle.points === 'number') {
+        points = bundle.points;
+        localStorage.setItem('vital_points', points.toString());
+      }
+      if (typeof bundle.waterCups === 'number') {
+        waterCups = bundle.waterCups;
+        localStorage.setItem('vital_water_cups', waterCups.toString());
+      }
+      if (bundle.challengePlan) {
+        challengePlan = bundle.challengePlan;
+        localStorage.setItem('vital_challenge_plan', JSON.stringify(challengePlan));
+      }
+      if (Array.isArray(bundle.registeredUsers)) {
+        registeredUsers = bundle.registeredUsers;
+        localStorage.setItem('vital_registered_users', JSON.stringify(registeredUsers));
+      }
+
+      playSuccessChime();
+      launchConfetti();
+      renderAll();
+      renderProfile();
+      renderLeaderboard();
+      showToast('✓ تمت مزامنة كافة بيانات حسابك وشعلاتك بنجاح 100%!');
+      closeAccountSyncModal();
+    }
+
+    function copySyncToken() {
+      try {
+        const bundle = generateAccountSyncBundle();
+        const jsonStr = JSON.stringify(bundle);
+        const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+        const syncToken = `VR_SYNC_${encoded}`;
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(syncToken).then(() => {
+            playSuccessChime();
+            showToast('📋 تم نسخ كود المزامنة بنجاح! الصقه في جهازك الآخر.');
+          });
         } else {
-          openMediafireModal();
+          prompt('انسخ كود المزامنة الخاص بك:', syncToken);
         }
-      } else if (deferredPwaPrompt) {
-        installPwaApp();
-      } else {
-        openMediafireModal();
+      } catch (e) {
+        showToast('❌ تعذر إنشاء كود المزامنة');
       }
     }
 
-    function downloadDirectHtmlFile() {
-      if (adminConfig.directDownloadUrl && adminConfig.directDownloadUrl.trim()) {
-        window.open(adminConfig.directDownloadUrl.trim(), '_blank');
-        showToast('🚀 جاري بدء تحميل الملف من الرابط المخصص...');
-        closeMediafireModal();
+    function applyPastedSyncToken() {
+      const input = document.getElementById('input-sync-token');
+      const val = input ? input.value.trim() : '';
+      if (!val) {
+        showToast('⚠️ يرجى لصق كود المزامنة أولاً');
         return;
       }
+      try {
+        let cleanToken = val.replace(/^VR_SYNC_/, '');
+        const jsonStr = decodeURIComponent(escape(atob(cleanToken)));
+        const bundle = JSON.parse(jsonStr);
+        applyAccountSyncBundle(bundle);
+        if (input) input.value = '';
+      } catch (e) {
+        console.error('Sync token parse error:', e);
+        showToast('❌ كود المزامنة غير صالح أو تالف');
+      }
+    }
 
-      const htmlContent = document.documentElement.outerHTML;
-      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'VitalRitual_Daily_CheckIn_App.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      playSuccessChime();
-      showToast('📥 تم تحميل ملف التطبيق المستقل بنجاح!');
-      closeMediafireModal();
+    function exportAccountBackupFile() {
+      try {
+        const bundle = generateAccountSyncBundle();
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(bundle, null, 2));
+        const a = document.createElement('a');
+        a.setAttribute("href", dataStr);
+        a.setAttribute("download", `VitalRitual_Backup_${currentUser.name || 'Hero'}_${todayStr}.json`);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        playSuccessChime();
+        showToast('📥 تم تحميل ملف النسخة الاحتياطية بنجاح!');
+      } catch (e) {
+        showToast('❌ فشل تصدير الملف');
+      }
+    }
+
+    function importAccountBackupFile(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const imported = JSON.parse(e.target.result);
+          applyAccountSyncBundle(imported);
+        } catch {
+          showToast('❌ ملف غير صالح أو تالف!');
+        }
+      };
+      reader.readAsText(file);
     }
 
     // 🔄 TAB SWITCHING
@@ -8819,8 +8902,12 @@ DIRECTIVES:
     window.openAddHabitModal = openAddHabitModal;
     window.openAdminPinModal = openAdminPinModal;
     window.openMediafireDirect = openMediafireDirect;
-    window.openMediafireModal = openMediafireModal;
-    window.openPlatformDownload = openPlatformDownload;
+    window.openAccountSyncModal = openAccountSyncModal;
+    window.closeAccountSyncModal = closeAccountSyncModal;
+    window.copySyncToken = copySyncToken;
+    window.applyPastedSyncToken = applyPastedSyncToken;
+    window.exportAccountBackupFile = exportAccountBackupFile;
+    window.importAccountBackupFile = importAccountBackupFile;
     window.openProfileModal = openProfileModal;
     window.performDailyCheckIn = performDailyCheckIn;
     window.previewConfiguredVideo = previewConfiguredVideo;
