@@ -41,6 +41,30 @@ namespace VitalRitual
                 }
                 catch {}
 
+                // Copy adjacent video/videos folders to appDataDir if available
+                try
+                {
+                    string[] videoDirs = new string[] { "video", "videos" };
+                    foreach (string vd in videoDirs)
+                    {
+                        string srcDir = Path.Combine(baseDir, vd);
+                        if (Directory.Exists(srcDir))
+                        {
+                            string destDir = Path.Combine(appDataDir, vd);
+                            if (!Directory.Exists(destDir)) Directory.CreateDirectory(destDir);
+                            foreach (string file in Directory.GetFiles(srcDir))
+                            {
+                                string destFile = Path.Combine(destDir, Path.GetFileName(file));
+                                if (!File.Exists(destFile) || new FileInfo(file).Length != new FileInfo(destFile).Length)
+                                {
+                                    File.Copy(file, destFile, true);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch {}
+
                 // 2. Fallback to adjacent local index.html if extraction was not available
                 if (!extracted)
                 {

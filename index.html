@@ -4468,9 +4468,42 @@
       if (!playerWrapper) return;
 
       const videoPathsMap = {
-        ar: ['https://vitalritual-os.vercel.app/video/arabe.mp4', '/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
-        en: ['https://vitalritual-os.vercel.app/video/english.mp4', '/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
-        fr: ['https://vitalritual-os.vercel.app/video/francais.mp4', '/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
+        ar: [
+          'video/arabe.mp4',
+          'videos/arabe.mp4',
+          'videos/video_ar.mp4',
+          './video/arabe.mp4',
+          './videos/arabe.mp4',
+          './videos/video_ar.mp4',
+          '/video/arabe.mp4',
+          '/videos/arabe.mp4',
+          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/arabe.mp4',
+          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/arabe.mp4'
+        ],
+        en: [
+          'video/english.mp4',
+          'videos/english.mp4',
+          'videos/video_en.mp4',
+          './video/english.mp4',
+          './videos/english.mp4',
+          './videos/video_en.mp4',
+          '/video/english.mp4',
+          '/videos/english.mp4',
+          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/english.mp4',
+          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/english.mp4'
+        ],
+        fr: [
+          'video/francais.mp4',
+          'videos/francais.mp4',
+          'videos/video_fr.mp4',
+          './video/francais.mp4',
+          './videos/francais.mp4',
+          './videos/video_fr.mp4',
+          '/video/francais.mp4',
+          '/videos/francais.mp4',
+          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/francais.mp4',
+          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/francais.mp4'
+        ]
       };
 
       const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentVideoLanguage])
@@ -4480,7 +4513,7 @@
       const defaultUrl = (adminConfig.videoUrl || '').trim();
       const fallbacks = videoPathsMap[currentVideoLanguage] || videoPathsMap.ar;
       const allSources = [customLangUrl, defaultUrl, ...fallbacks].filter((v, i, a) => v && v.length > 0 && a.indexOf(v) === i);
-      const primarySrc = allSources[0] || '/video/arabe.mp4';
+      const primarySrc = allSources[0] || 'video/arabe.mp4';
 
       const ytMatch = primarySrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
       if (ytMatch && ytMatch[1]) {
@@ -4495,15 +4528,17 @@
           ></iframe>
         `;
       } else {
-        const sourcesHtml = allSources.map(s => `<source src="${s}" type="video/mp4" />`).join('\n              ');
+        const sourcesHtml = allSources.map(s => `<source src="${s}" type="video/mp4" onerror="handleVideoSourceError(this)" />`).join('\n              ');
         playerWrapper.innerHTML = `
           <video
             id="explainer-video-player"
+            src="${primarySrc}"
             controls
             playsinline
             webkit-playsinline
-            preload="auto"
+            preload="metadata"
             class="w-full h-full rounded-2xl object-contain bg-black shadow-inner"
+            onerror="handleExplainerVideoError(this)"
           >
             ${sourcesHtml}
             Your browser does not support HTML5 video.
@@ -4656,9 +4691,42 @@
       if (!box) return;
 
       const videoPathsMap = {
-        ar: ['https://vitalritual-os.vercel.app/video/arabe.mp4', '/video/arabe.mp4', 'video/arabe.mp4', '/videos/arabe.mp4', 'videos/arabe.mp4'],
-        en: ['https://vitalritual-os.vercel.app/video/english.mp4', '/video/english.mp4', 'video/english.mp4', '/videos/english.mp4', 'videos/english.mp4'],
-        fr: ['https://vitalritual-os.vercel.app/video/francais.mp4', '/video/francais.mp4', 'video/francais.mp4', '/videos/francais.mp4', 'videos/francais.mp4']
+        ar: [
+          'video/arabe.mp4',
+          'videos/arabe.mp4',
+          'videos/video_ar.mp4',
+          './video/arabe.mp4',
+          './videos/arabe.mp4',
+          './videos/video_ar.mp4',
+          '/video/arabe.mp4',
+          '/videos/arabe.mp4',
+          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/arabe.mp4',
+          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/arabe.mp4'
+        ],
+        en: [
+          'video/english.mp4',
+          'videos/english.mp4',
+          'videos/video_en.mp4',
+          './video/english.mp4',
+          './videos/english.mp4',
+          './videos/video_en.mp4',
+          '/video/english.mp4',
+          '/videos/english.mp4',
+          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/english.mp4',
+          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/english.mp4'
+        ],
+        fr: [
+          'video/francais.mp4',
+          'videos/francais.mp4',
+          'videos/video_fr.mp4',
+          './video/francais.mp4',
+          './videos/francais.mp4',
+          './videos/video_fr.mp4',
+          '/video/francais.mp4',
+          '/videos/francais.mp4',
+          'https://raw.githubusercontent.com/lotfiloukil8-debug/vitalritual-os/main/video/francais.mp4',
+          'https://cdn.jsdelivr.net/gh/lotfiloukil8-debug/vitalritual-os@main/video/francais.mp4'
+        ]
       };
 
       const customLangUrl = (adminConfig.langVideos && adminConfig.langVideos[currentModalVideoLang])
@@ -4668,7 +4736,7 @@
       const defaultUrl = (adminConfig.videoUrl || '').trim();
       const fallbacks = videoPathsMap[currentModalVideoLang] || videoPathsMap.ar;
       const allSources = [customLangUrl, defaultUrl, ...fallbacks].filter((v, i, a) => v && v.length > 0 && a.indexOf(v) === i);
-      const primarySrc = allSources[0] || '/video/arabe.mp4';
+      const primarySrc = allSources[0] || 'video/arabe.mp4';
 
       const ytMatch = primarySrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
       if (ytMatch && ytMatch[1]) {
@@ -4683,15 +4751,16 @@
           ></iframe>
         `;
       } else {
-        const sourcesHtml = allSources.map(s => `<source src="${s}" type="video/mp4" />`).join('\n              ');
+        const sourcesHtml = allSources.map(s => `<source src="${s}" type="video/mp4" onerror="handleVideoSourceError(this)" />`).join('\n              ');
         box.innerHTML = `
           <video
             id="modal-explainer-video-player"
+            src="${primarySrc}"
             controls
             autoplay
             playsinline
             webkit-playsinline
-            preload="auto"
+            preload="metadata"
             class="w-full h-full rounded-2xl object-contain bg-black shadow-inner"
           >
             ${sourcesHtml}
@@ -4700,6 +4769,19 @@
         `;
       }
     }
+
+    function handleVideoSourceError(sourceEl) {
+      const video = sourceEl.closest('video');
+      if (!video) return;
+      const sources = Array.from(video.querySelectorAll('source'));
+      const currentSrc = video.currentSrc || video.src;
+      let nextIndex = sources.findIndex(s => s.src === currentSrc) + 1;
+      if (nextIndex > 0 && nextIndex < sources.length) {
+        video.src = sources[nextIndex].src;
+        video.load();
+      }
+    }
+    window.handleVideoSourceError = handleVideoSourceError;
 
     function openHabitsOnboarding() {
       showFlowStep('habits-select');

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vitalritual-v5.1';
+const CACHE_NAME = 'vitalritual-v5.2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -25,6 +25,11 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Video files require range requests (HTTP 206) - bypass service worker cache
+  if (event.request.destination === 'video' || event.request.url.endsWith('.mp4') || event.request.url.includes('.mp4')) {
+    return;
+  }
+
   if (event.request.mode === 'navigate' || event.request.destination === 'document') {
     event.respondWith(
       fetch(event.request)
