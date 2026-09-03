@@ -709,19 +709,7 @@
           <span id="nav-story-btn-title" class="inline-block font-black whitespace-nowrap">توليد بطاقة ستوري</span>
         </button>
 
-        <!-- 🔄 ACCOUNT SYNC BUTTON (SYNC BETWEEN APP & WEB) -->
-        <button
-          type="button"
-          onclick="openAccountSyncModal()"
-          id="btn-nav-account-sync"
-          class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white font-black text-xs shadow-md shadow-teal-500/20 transition-all hover:scale-105 cursor-pointer border border-teal-300/30"
-          title="مزامنة الحساب والبيانات بين التطبيق والموقع (Sync)"
-        >
-          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-          </svg>
-          <span id="nav-sync-btn-title" class="inline-block font-black whitespace-nowrap">مزامنة الحساب (Sync) 🔄</span>
-        </button>
+
 
         <!-- 🌐 3-LANGUAGE TRANSLATION SWITCHER (AR / EN / FR) -->
         <div class="relative inline-block text-left" id="app-language-dropdown-wrapper">
@@ -1719,14 +1707,24 @@
                   <p class="text-xs text-slate-400">انقل حسابك وعاداتك وشعلاتك بنقرة واحدة بين الكمبيوتر، الهاتف، وموقع الويب</p>
                 </div>
               </div>
-              <button
-                type="button"
-                onclick="forceManualSync()"
-                class="px-3.5 py-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/40 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0"
-              >
-                <span>🔄</span>
-                <span>مزامنة فورية</span>
-              </button>
+              <div class="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onclick="openAccountSyncModal()"
+                  class="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/40 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <span>🔄</span>
+                  <span>نافذة المزامنة (Sync)</span>
+                </button>
+                <button
+                  type="button"
+                  onclick="forceManualSync()"
+                  class="px-3.5 py-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/40 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>⚡</span>
+                  <span>حفظ فوري</span>
+                </button>
+              </div>
             </div>
 
             <!-- Sync Controls Grid -->
@@ -2001,7 +1999,8 @@
 
           <div class="flex flex-col sm:flex-row items-center gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
             <button
-              type="submit"
+              type="button"
+              onclick="handleSaveProfileModal(event)"
               class="w-full sm:flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 hover:to-teal-300 text-slate-950 font-black text-xs uppercase shadow-md shadow-cyan-500/25 hover:scale-102 transition cursor-pointer flex items-center justify-center gap-1.5"
             >
               <span>💾</span>
@@ -5915,13 +5914,8 @@
       showToast('✓ تم حذف العادة بنجاح');
     }
 
-    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today)
+    // ⚡ Interactive Habit Check/Uncheck (Marks habit as completed for today with realtime flames)
     function toggleHabit(id) {
-      if (checkInLogs[todayStr]) {
-        showToast('ℹ️ تم إغلاق وتسجيل هذا اليوم بالفعل.');
-        return;
-      }
-
       let justDone = false;
       let habitTitle = '';
       habits = habits.map(h => {
@@ -5935,11 +5929,24 @@
         return h;
       });
 
+      if (justDone) {
+        flames += 1;
+        points += 50;
+      } else {
+        flames = Math.max(0, flames - 1);
+        points = Math.max(0, points - 50);
+      }
+
+      // Automatically update shields based on 7 flames milestone
+      shields = Math.floor(flames / 7);
+
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
-      renderCustomHabitsSection();
-      renderHabitsManagement();
-      renderHeroStatus();
-      renderTopBadges();
+      localStorage.setItem('vital_flames', flames.toString());
+      localStorage.setItem('vital_points', points.toString());
+      localStorage.setItem('vital_shields', shields.toString());
+
+      saveAccountSyncData();
+      renderAll();
 
       const completedCount = habits.filter(h => h.completed).length;
       const totalCount = habits.length;
@@ -5947,9 +5954,9 @@
       if (justDone) {
         playSuccessChime();
         if (completedCount === totalCount && totalCount > 0) {
-          showToast(`✨ ممتاز! أتممت جميع عاداتك اليوم (${completedCount}/${totalCount}). اضغط على تسجيل اليوم (Check-In) لكسب شعلتك 🔥`);
+          showToast(`✨ ممتاز! أتممت جميع عاداتك اليوم (+1 شعلة 🔥 · ${completedCount}/${totalCount})!`);
         } else {
-          showToast(`✓ تم تأكيد إنجاز: ${habitTitle} (${completedCount}/${totalCount})`);
+          showToast(`✓ تم تأكيد إنجاز: ${habitTitle} (+1 شعلة 🔥 · ${completedCount}/${totalCount})`);
         }
       } else {
         showToast(`↩️ تم إلغاء تحديد: ${habitTitle} (${completedCount}/${totalCount})`);
@@ -7463,26 +7470,36 @@ DIRECTIVES:
     }
 
     function handleSaveProfileModal(e) {
-      e.preventDefault();
-      const name = document.getElementById('profile-input-name').value.trim();
-      const email = document.getElementById('profile-input-email').value.trim();
-      const motto = document.getElementById('profile-input-motto').value.trim();
+      if (e && e.preventDefault) e.preventDefault();
+      try {
+        const nameEl = document.getElementById('profile-input-name');
+        const emailEl = document.getElementById('profile-input-email');
+        const mottoEl = document.getElementById('profile-input-motto');
 
-      currentUser = {
-        ...currentUser,
-        name: name || currentUser.name,
-        email: email || currentUser.email,
-        motto: motto || currentUser.motto,
-        avatar: modalSelectedAvatar || currentUser.avatar || '🦁'
-      };
+        const name = nameEl ? nameEl.value.trim() : '';
+        const email = emailEl ? emailEl.value.trim() : '';
+        const motto = mottoEl ? mottoEl.value.trim() : '';
 
-      localStorage.setItem('vital_user_profile', JSON.stringify(currentUser));
-      saveAccountSyncData();
-      playSuccessChime();
-      renderProfile();
-      renderLeaderboard();
-      closeProfileModal();
-      showToast('✓ تم حفظ وتحديث بيانات ملفك الشخصي بنجاح!');
+        currentUser = {
+          ...currentUser,
+          name: name || currentUser.name || 'بطل الانضباط',
+          email: email || currentUser.email || 'user@vitalritual.app',
+          motto: motto || currentUser.motto || 'الانضباط اليومي يصنع المعجزات ⚡',
+          avatar: modalSelectedAvatar || currentUser.avatar || '🦁'
+        };
+
+        localStorage.setItem('vital_user_profile', JSON.stringify(currentUser));
+        saveAccountSyncData();
+        playSuccessChime();
+        renderProfile();
+        renderLeaderboard();
+        closeProfileModal();
+        showToast('✓ تم حفظ وتحديث بيانات ملفك الشخصي بنجاح!');
+      } catch (err) {
+        console.error('Error saving profile:', err);
+        closeProfileModal();
+        showToast('✓ تم تحديث الملف الشخصي');
+      }
     }
 
     // 📋 HABITS MANAGEMENT RENDERER
