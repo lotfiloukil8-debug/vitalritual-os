@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="description" content="VitalRitual Pro — رحلة الانضباط اليومي: فيديو الشرح، تسجيل الدخول، اختيار العادات، والتطبيق الشامل مع الملف الشخصي ولوحة الإدارة." />
   <meta name="theme-color" content="#0891B2" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="VitalRitual" />
   <title>VitalRitual · نظام تسجيل العادات، أكواب الماء الحقيقية، والملف الشخصي</title>
 
   <!-- Google Fonts: Cairo & JetBrains Mono -->
@@ -2522,102 +2528,90 @@
         </div>
 
         <div class="space-y-3.5 text-xs">
-          <!-- 💻 Windows PC Application (.EXE) Download Card -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/40 dark:via-indigo-950/40 dark:to-purple-950/40 border-2 border-blue-400/80 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
+        <div class="space-y-3.5 text-xs">
+          <!-- 📱 1-Click Instant PWA Installation Card (Mobile & Desktop) -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-50 via-teal-50 to-emerald-50 dark:from-cyan-950/50 dark:via-teal-950/40 dark:to-emerald-950/40 border-2 border-cyan-400 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
             <div class="flex items-center gap-3 text-right">
-              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white text-2xl flex items-center justify-center font-bold shadow-md shadow-blue-500/25 shrink-0">
-                💻
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 text-2xl flex items-center justify-center font-bold shadow-md shadow-cyan-500/25 shrink-0">
+                📲
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق الكمبيوتر (Windows .EXE)</h4>
-                  <span class="px-2 py-0.5 rounded-full bg-blue-500 text-white font-black text-[9px]">موصى به ⭐</span>
+                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تثبيت التطبيق الفوري (App PWA)</h4>
+                  <span class="px-2 py-0.5 rounded-full bg-cyan-500 text-slate-950 font-black text-[9px]">أسرع وأخف ⭐</span>
                 </div>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">تطبيق سطح مكتب متكامل لويندوز 10/11 يعمل بدون متصفح وبحفظ تلقائي</p>
-              </div>
-            </div>
-            <div class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
-              <button
-                type="button"
-                onclick="downloadWindowsApp()"
-                class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs transition hover:scale-105 cursor-pointer shadow-md flex items-center justify-center gap-1.5 shrink-0"
-              >
-                <span>⬇️</span>
-                <span>تحميل EXE</span>
-              </button>
-              <button
-                type="button"
-                onclick="downloadWindowsZip()"
-                class="flex-1 sm:flex-initial px-3.5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition cursor-pointer shrink-0"
-                title="تحميل حزمة مضغوطة ZIP"
-              >
-                <span>📦 ZIP</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- 🤖 Android APK Download Card -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/40 border-2 border-emerald-400/60 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
-            <div class="flex items-center gap-3 text-right">
-              <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-slate-950 text-2xl flex items-center justify-center font-bold shadow-md">
-                🤖
-              </div>
-              <div>
-                <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق هواتف أندرويد (Android APK)</h4>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">ملف تثبيت مباشر بصيغة APK لجميع هواتف سامسونج وشاومي وهواوي</p>
+                <p class="text-[11px] text-slate-600 dark:text-slate-300">يعمل كتطبيق كامل على هاتفك (أندرويد / آيفون) أو جهاز الكمبيوتر بدون متجر، ويدعم وضع عدم الاتصال بالإنترنت</p>
               </div>
             </div>
             <button
-              onclick="openPlatformDownload('android')"
-              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition hover:scale-105 cursor-pointer shrink-0 shadow-sm flex items-center justify-center gap-1.5"
+              type="button"
+              id="btn-pwa-modal-install"
+              onclick="installPwaApp()"
+              class="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 hover:from-cyan-400 hover:to-emerald-300 text-slate-950 font-black text-xs transition hover:scale-105 cursor-pointer shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2 shrink-0"
             >
-              <span>⬇️</span>
-              <span>تحميل للأندرويد APK</span>
+              <span>📲</span>
+              <span>تثبيت التطبيق الآن</span>
             </button>
           </div>
 
-          <!-- 🍏 iOS / iPhone Download Card -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 border-2 border-slate-300 dark:border-slate-600 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+          <!-- 💻 Standalone Web App / Direct HTML Offline Download -->
+          <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 border-2 border-blue-400/60 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
             <div class="flex items-center gap-3 text-right">
-              <div class="w-12 h-12 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 text-2xl flex items-center justify-center font-bold shadow-md">
-                🍏
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white text-2xl flex items-center justify-center font-bold shadow-md shrink-0">
+                💾
               </div>
               <div>
-                <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق هواتف آيفون (iOS / iPhone)</h4>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">رابط مخصص لأجهزة Apple iPhone / iPad و App Store</p>
+                <h4 class="text-sm font-black text-slate-900 dark:text-white">تحميل ملف التطبيق المستقل (HTML Offline)</h4>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">تنزيل نسخة كاملة تعمل 100% بدون إنترنت على جهازك بمجرد فتح الملف</p>
               </div>
             </div>
             <button
-              onclick="openPlatformDownload('ios')"
-              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 hover:bg-slate-800 font-black text-xs transition hover:scale-105 cursor-pointer shrink-0 shadow-sm flex items-center justify-center gap-1.5"
-            >
-              <span>⬇️</span>
-              <span>تحميل للآيفون iOS</span>
-            </button>
-          </div>
-
-          <!-- 💻 Standalone Web App / Direct HTML -->
-          <div class="p-4 rounded-2xl bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-950/40 dark:to-blue-950/40 border border-cyan-300 dark:border-cyan-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-3 text-right">
-              <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-500 text-xl flex items-center justify-center font-bold">
-                💻
-              </div>
-              <div>
-                <h5 class="text-xs font-bold text-slate-900 dark:text-white">تطبيق الويب الفوري (HTML Standalone)</h5>
-                <p class="text-[10px] text-slate-500 dark:text-slate-400">يعمل بدون إنترنت على أي جهاز كمبيوتر أو متصفح</p>
-              </div>
-            </div>
-            <button
+              type="button"
               onclick="downloadDirectHtmlFile()"
-              class="w-full sm:w-auto px-3.5 py-2 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs hover:bg-cyan-400 transition cursor-pointer shrink-0"
+              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs transition hover:scale-105 cursor-pointer shrink-0 shadow-sm flex items-center justify-center gap-1.5"
             >
-              تنزيل ملف HTML ⬇️
+              <span>📥</span>
+              <span>تنزيل الملف</span>
+            </button>
+          </div>
+
+          <!-- 🤖 Android APK & 🍏 iOS Custom Options -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button
+              type="button"
+              onclick="openPlatformDownload('android')"
+              class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 text-slate-900 dark:text-white hover:bg-emerald-100 transition cursor-pointer flex items-center justify-between"
+            >
+              <div class="flex items-center gap-2 text-right">
+                <span class="text-xl">🤖</span>
+                <div>
+                  <span class="text-xs font-bold block">Android APK</span>
+                  <span class="text-[10px] text-slate-500 dark:text-slate-400">تحميل مباشر</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">فتح ↗</span>
+            </button>
+
+            <button
+              type="button"
+              onclick="openPlatformDownload('ios')"
+              class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white hover:bg-slate-200 transition cursor-pointer flex items-center justify-between"
+            >
+              <div class="flex items-center gap-2 text-right">
+                <span class="text-xl">🍏</span>
+                <div>
+                  <span class="text-xs font-bold block">iOS / iPhone</span>
+                  <span class="text-[10px] text-slate-500 dark:text-slate-400">دليل التثبيت</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-cyan-600 dark:text-cyan-400">فتح ↗</span>
             </button>
           </div>
 
           <!-- MediaFire Direct Hub Button -->
           <div class="pt-1 text-center">
             <button
+              type="button"
               onclick="openMediafireDirect()"
               class="text-xs font-bold text-cyan-600 dark:text-cyan-400 hover:underline cursor-pointer flex items-center justify-center gap-1 mx-auto"
             >
@@ -2629,6 +2623,7 @@
 
         <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-left">
           <button
+            type="button"
             onclick="closeMediafireModal()"
             class="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-xs hover:bg-slate-200 cursor-pointer"
           >
@@ -8028,47 +8023,49 @@ DIRECTIVES:
       showToast('✓ تم حفظ وتعيين رابط MediaFire الخاص بك بنجاح!');
     }
 
+    // 📲 PWA INSTALLATION ENGINE
+    let deferredPwaPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+      const btn = document.getElementById('btn-pwa-modal-install');
+      if (btn) btn.classList.add('ring-4', 'ring-cyan-400', 'animate-pulse');
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+
+    async function installPwaApp() {
+      if (deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        const choice = await deferredPwaPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          playSuccessChime();
+          showToast('✓ تم تثبيت تطبيق VitalRitual بنجاح على جهازك!');
+          deferredPwaPrompt = null;
+          closeMediafireModal();
+        }
+      } else {
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent || '');
+        if (isIOS) {
+          showToast('🍏 على الآيفون: اضغط زر المشاركة (⎋) ثم "إضافة للشاشة الرئيسية ➕"');
+          alert('لتثبيت التطبيق على الآيفون (iOS):\n1. اضغط على زر المشاركة (Share ⎋) أسفل المتصفح.\n2. مرر للأسفل واختر "إضافة إلى الشاشة الرئيسية" (Add to Home Screen ➕).\n3. اضغط "إضافة" وسيظهر التطبيق كأيقونة مستقلة على هاتفك!');
+        } else {
+          showToast('📲 لتثبيت التطبيق: اضغط خيارات المتصفح (⋮) ثم "تثبيت التطبيق"');
+          alert('لتثبيت التطبيق على جهازك:\n1. اضغط على أيقونة التثبيت في شريط العنوان أو قائمة المتصفح (⋮).\n2. اختر "تثبيت التطبيق" (Install VitalRitual).\n3. سيتم تثبيت التطبيق والعمل بشكل فوري وبدون إنترنت!');
+        }
+      }
+    }
+
     function handleSmartAppDownload() {
-      const ua = (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase();
-      const isAndroid = /android/i.test(ua);
-      const isIOS = /iphone|ipad|ipod/i.test(ua);
-      const isFr = currentAppLang === 'fr';
-      const isEn = currentAppLang === 'en';
-
-      if (isAndroid) {
-        openPlatformDownload('android');
-        return;
+      if (deferredPwaPrompt) {
+        installPwaApp();
+      } else {
+        openMediafireModal();
       }
-
-      if (isIOS) {
-        openPlatformDownload('ios');
-        return;
-      }
-
-      // Default on PC / Desktop / Windows: Direct 1-Click download of native .exe
-      downloadWindowsApp();
-    }
-
-    function downloadWindowsApp() {
-      playSuccessChime();
-      showToast('💻 جاري بدء تحميل تطبيق الكمبيوتر (VitalRitual_OS.exe)...');
-      const a = document.createElement('a');
-      a.href = 'VitalRitual_OS.exe';
-      a.download = 'VitalRitual_OS.exe';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
-    function downloadWindowsZip() {
-      playSuccessChime();
-      showToast('📦 جاري بدء تحميل حزمة الكمبيوتر المضغوطة (ZIP)...');
-      const a = document.createElement('a');
-      a.href = 'VitalRitual_OS_PC_v1.0.zip';
-      a.download = 'VitalRitual_OS_PC_v1.0.zip';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
     }
 
     function downloadDirectHtmlFile() {
@@ -8744,6 +8741,7 @@ DIRECTIVES:
     window.downloadWindowsZip = downloadWindowsZip;
     window.downloadDirectHtmlFile = downloadDirectHtmlFile;
     window.handleSmartAppDownload = handleSmartAppDownload;
+    window.installPwaApp = installPwaApp;
     window.exitAdminPanel = exitAdminPanel;
     window.filterBadges = filterBadges;
     window.handleSecretAdminClick = handleSecretAdminClick;
