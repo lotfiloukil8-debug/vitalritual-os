@@ -913,15 +913,27 @@
             </div>
           </div>
 
-          <!-- CHECK-IN ACTION BUTTON (ALWAYS EMPOWERING & ACCESSIBLE) -->
-          <div class="pt-2">
+          <!-- CHECK-IN ACTION BUTTONS (SUCCESS OR INCOMPLETE/REST DAY) -->
+          <div class="pt-2 space-y-2.5">
             <button
               id="btn-perform-checkin"
               onclick="performDailyCheckIn()"
-              class="w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 shadow-lg shadow-cyan-500/25 hover:scale-102 transition-all cursor-pointer animate-pulse-glow"
+              class="w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 shadow-lg shadow-cyan-500/25 hover:scale-102 transition-all cursor-pointer animate-pulse-glow flex items-center justify-center gap-2"
             >
-              ⚡ تسجيل وإغلاق اليوم · CHECK-IN (+100 PTS)
+              <span>⚡ تسجيل وإغلاق اليوم · CHECK-IN (+100 PTS)</span>
             </button>
+
+            <!-- 🛡️ BUTTON: I DID NOT FINISH MY HABITS TODAY (REST / SHIELD DAY) -->
+            <button
+              id="btn-perform-missed-day"
+              type="button"
+              onclick="performMissedOrRestDay()"
+              class="w-full py-3 rounded-2xl font-bold text-xs bg-slate-200/90 hover:bg-slate-300 dark:bg-slate-800/90 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-all hover:scale-101 cursor-pointer flex items-center justify-center gap-2 shadow-2xs"
+            >
+              <span>🛡️</span>
+              <span id="btn-missed-day-text">لم أتمكن من إكمال عاداتي اليوم (يوم راحة / تفعيل درع الحماية 🛡️)</span>
+            </button>
+
             <p id="checkin-shield-note" class="hidden text-[11px] text-slate-500 dark:text-slate-400 mt-2 text-center font-semibold">
             </p>
           </div>
@@ -5731,21 +5743,52 @@
       const statusBadge = document.getElementById('badge-checkin-status');
       const heroTitle = document.getElementById('hero-title');
       const checkinBtn = document.getElementById('btn-perform-checkin');
+      const missedBtn = document.getElementById('btn-perform-missed-day');
+      const missedBtnText = document.getElementById('btn-missed-day-text');
       const shieldNote = document.getElementById('checkin-shield-note');
       const t = TRANSLATIONS[currentAppLang] || TRANSLATIONS.ar;
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
 
       if (isDone) {
-        if (heroCard) heroCard.className = 'bento-card p-6 sm:p-8 space-y-6 border-2 border-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20 transition-all';
-        if (statusBadge) {
-          statusBadge.className = 'text-xs font-black uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700';
-          statusBadge.textContent = t.statusDone || '✓ تم تسجيل وإغلاق اليوم بنجاح';
+        const log = checkInLogs[todayStr];
+        const isShielded = log && log.status === 'shielded';
+        const isMissed = log && log.status === 'missed';
+
+        if (heroCard) {
+          heroCard.className = isShielded 
+            ? 'bento-card p-6 sm:p-8 space-y-6 border-2 border-amber-400 bg-amber-50/40 dark:bg-amber-950/20 transition-all'
+            : isMissed
+            ? 'bento-card p-6 sm:p-8 space-y-6 border-2 border-rose-400 bg-rose-50/40 dark:bg-rose-950/20 transition-all'
+            : 'bento-card p-6 sm:p-8 space-y-6 border-2 border-emerald-400 bg-emerald-50/40 dark:bg-emerald-950/20 transition-all';
         }
-        if (heroTitle) heroTitle.textContent = t.heroTitleDone || '✓ تم تسجيل حضور وإنجاز يومك بنجاح';
+
+        if (statusBadge) {
+          if (isShielded) {
+            statusBadge.className = 'text-xs font-black uppercase px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700';
+            statusBadge.textContent = isFr ? '🛡️ Journée protégée par un bouclier' : (isEn ? '🛡️ Shielded Day' : '🛡️ يوم محمي بدرع الحماية');
+          } else if (isMissed) {
+            statusBadge.className = 'text-xs font-black uppercase px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-700';
+            statusBadge.textContent = isFr ? '✕ Journée incomplète' : (isEn ? '✕ Incomplete Day' : '✕ يوم غير مكتمل');
+          } else {
+            statusBadge.className = 'text-xs font-black uppercase px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700';
+            statusBadge.textContent = t.statusDone || '✓ تم تسجيل وإغلاق اليوم بنجاح';
+          }
+        }
+
+        if (heroTitle) {
+          if (isShielded) heroTitle.textContent = isFr ? '🛡️ Votre série et vos flammes ont été sauvées par votre bouclier' : (isEn ? '🛡️ Your streak and flames were saved by your shield' : '🛡️ تم حماية شعلاتك وسلسلتك بواسطة درع الحماية');
+          else if (isMissed) heroTitle.textContent = isFr ? '✕ Journée fermée sans bouclier' : (isEn ? '✕ Day closed without shield' : '✕ تم إغلاق اليوم كغير مكتمل');
+          else heroTitle.textContent = t.heroTitleDone || '✓ تم تسجيل حضور وإنجاز يومك بنجاح';
+        }
+
         if (checkinBtn) {
-          checkinBtn.className = 'w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-500 border border-slate-400 dark:border-slate-700 cursor-not-allowed';
-          checkinBtn.textContent = t.btnCheckinDone || '✓ تم تسجيل حضور وإنجاز يومك بنجاح';
+          checkinBtn.className = 'w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-500 border border-slate-400 dark:border-slate-700 cursor-not-allowed flex items-center justify-center gap-2';
+          checkinBtn.textContent = isShielded ? '🛡️ يوم محمي بالدرع · تم الإغلاق' : isMissed ? '✕ تم تسجيل اليوم كغير مكتمل' : (t.btnCheckinDone || '✓ تم تسجيل حضور وإنجاز يومك بنجاح');
           checkinBtn.disabled = true;
         }
+
+        if (missedBtn) missedBtn.classList.add('hidden');
         if (shieldNote) shieldNote.classList.add('hidden');
       } else {
         if (heroCard) heroCard.className = 'bento-card p-6 sm:p-8 space-y-6 border-2 border-cyan-400 transition-all';
@@ -5756,8 +5799,16 @@
         if (heroTitle) heroTitle.textContent = t.heroTitleNotDone || 'سجّل إنجازاتك اليومية لإبقاء شعلتك مشتعلة 🔥';
         if (checkinBtn) {
           checkinBtn.disabled = false;
-          checkinBtn.className = 'w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 shadow-lg shadow-cyan-500/25 hover:scale-102 transition cursor-pointer animate-pulse-glow';
+          checkinBtn.className = 'w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 text-slate-950 shadow-lg shadow-cyan-500/25 hover:scale-102 transition cursor-pointer animate-pulse-glow flex items-center justify-center gap-2';
           checkinBtn.textContent = t.btnCheckinActive || '⚡ تسجيل وإغلاق اليوم · CHECK-IN (+100 PTS)';
+        }
+        if (missedBtn) {
+          missedBtn.classList.remove('hidden');
+          if (missedBtnText) {
+            missedBtnText.textContent = isFr
+              ? `Je n'ai pas pu terminer mes habitudes aujourd'hui (Jour de repos / Bouclier 🛡️ : ${shields})`
+              : (isEn ? `I couldn't finish my habits today (Rest Day / Shield 🛡️: ${shields})` : `لم أتمكن من إكمال عاداتي اليوم (يوم راحة / دروع الحماية 🛡️: ${shields})`);
+          }
         }
         if (shieldNote) shieldNote.classList.add('hidden');
       }
@@ -6145,6 +6196,68 @@
             totalHabits: totalHabits
           };
         }
+      }
+
+      localStorage.setItem('vital_streak', streak.toString());
+      localStorage.setItem('vital_longest_streak', longestStreak.toString());
+      localStorage.setItem('vital_shields', shields.toString());
+      localStorage.setItem('vital_points', points.toString());
+      localStorage.setItem('vital_flames', flames.toString());
+      localStorage.setItem('vital_checkin_logs', JSON.stringify(checkInLogs));
+
+      saveAccountSyncData();
+      renderAll();
+    }
+
+    // 🛡️ USER REPORTS INCOMPLETE / MISSED / REST DAY
+    function performMissedOrRestDay() {
+      if (checkInLogs[todayStr]) {
+        showToast('ℹ️ تم تسجيل وإغلاق هذا اليوم بالفعل.');
+        return;
+      }
+
+      const totalHabits = habits.length;
+      const completedHabitsToday = habits.filter(h => h.completed).length;
+
+      if (shields > 0) {
+        // 🛡️ Protected by shield!
+        shields -= 1;
+        playSoundEffect('shield_saved');
+        triggerShieldSavedAnimation(flames, shields, completedHabitsToday, totalHabits);
+        showToast(currentAppLang === 'fr' 
+          ? `🛡️ 1 bouclier a été consommé pour protéger vos ${flames} flammes et votre série ! (Boucliers restants : ${shields})`
+          : `🛡️ تم استهلاك درع حماية لحفظ شعلاتك (${flames} 🔥) وسلسلتك السابقة! (الدروع المتبقية: ${shields})`);
+
+        checkInLogs[todayStr] = {
+          date: todayStr,
+          status: 'shielded',
+          habitsDone: completedHabitsToday,
+          totalHabits: totalHabits
+        };
+      } else {
+        // ❌ No shield available
+        const confirmMsg = currentAppLang === 'fr' 
+          ? 'Vous n\'avez aucun bouclier 🛡️ de protection en réserve.\nEn validant une journée incomplète, votre série sera réinitialisée.\n\nVoulez-vous confirmer ?'
+          : (currentAppLang === 'en'
+          ? 'You do not have any protection shields 🛡️ in reserve.\nLogging an incomplete day will reset your streak.\n\nDo you want to confirm?'
+          : 'لا تملك أي دروع حماية 🛡️ في رصيدك حالياً.\nعند تأكيد عدم إكمال العادات لليوم، سيتم إعادة تعيين السلسلة.\n\nهل تريد تأكيد تسجيل اليوم كغير مكتمل؟');
+
+        if (!confirm(confirmMsg)) return;
+
+        flames = Math.max(0, flames - 1);
+        streak = 0;
+        playSoundEffect('flame_lost');
+        document.body.classList.add('animate-shake-screen');
+        setTimeout(() => document.body.classList.remove('animate-shake-screen'), 600);
+        triggerFlamesLostAnimation(completedHabitsToday, totalHabits);
+        showToast(currentAppLang === 'fr' ? '💨 Journée enregistrée comme incomplète. Série réinitialisée.' : '💨 تم تسجيل اليوم كغير مكتمل. تمت إعادة تعيين السلسلة.');
+
+        checkInLogs[todayStr] = {
+          date: todayStr,
+          status: 'missed',
+          habitsDone: completedHabitsToday,
+          totalHabits: totalHabits
+        };
       }
 
       localStorage.setItem('vital_streak', streak.toString());
@@ -8904,6 +9017,7 @@ DIRECTIVES:
     window.importAccountBackupFile = importAccountBackupFile;
     window.openProfileModal = openProfileModal;
     window.performDailyCheckIn = performDailyCheckIn;
+    window.performMissedOrRestDay = performMissedOrRestDay;
     window.previewConfiguredVideo = previewConfiguredVideo;
     window.replayExplainerVideo = replayExplainerVideo;
     window.saveAdminSettingsAndApply = saveAdminSettingsAndApply;
