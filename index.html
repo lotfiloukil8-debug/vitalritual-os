@@ -2754,7 +2754,7 @@
             </button>
           </div>
 
-          <!-- 📱 Android APK & MediaFire -->
+          <!-- 📱 Android APK Native Direct Download -->
           <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 dark:from-emerald-950/40 dark:via-teal-950/40 dark:to-cyan-950/40 border-2 border-emerald-400/80 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
             <div class="flex items-center gap-3 text-right">
               <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white text-2xl flex items-center justify-center font-bold shadow-md shadow-emerald-500/25 shrink-0">
@@ -2762,19 +2762,19 @@
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق أندرويد (Android APK / MediaFire)</h4>
-                  <span class="px-2 py-0.5 rounded-full bg-emerald-500 text-white font-black text-[9px]">Android 📱</span>
+                  <h4 class="text-sm font-black text-slate-900 dark:text-white">تطبيق أندرويد (Android APK)</h4>
+                  <span class="px-2 py-0.5 rounded-full bg-emerald-500 text-white font-black text-[9px]">WebIntoApp APK ⚡</span>
                 </div>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">تحميل مباشر وتثبيت فوري لهواتف أندرويد</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">تحميل مباشر لملف VitalRitual.apk وتثبيت فوري على هواتف أندرويد</p>
               </div>
             </div>
             <button
               type="button"
-              onclick="openPlatformDownload('android')"
+              onclick="downloadAndroidApk()"
               class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 font-black text-xs transition hover:scale-105 cursor-pointer shadow-md flex items-center justify-center gap-1.5 shrink-0"
             >
               <span>📲</span>
-              <span>تحميل للأندرويد</span>
+              <span>تحميل APK مباشر</span>
             </button>
           </div>
 
@@ -8902,17 +8902,38 @@ DIRECTIVES:
       }
     }
 
+    function downloadAndroidApk() {
+      playSuccessChime();
+      showToast('📲 جاري بدء تحميل تطبيق الأندرويد (VitalRitual.apk)...');
+      const a = document.createElement('a');
+      a.href = 'VitalRitual.apk';
+      a.download = 'VitalRitual.apk';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        try { document.body.removeChild(a); } catch(e){}
+      }, 300);
+    }
+    window.downloadAndroidApk = downloadAndroidApk;
+
     function openPlatformDownload(platform) {
+      const isAndroid = /android/i.test(navigator.userAgent || '');
+      const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent || '');
+
       if (!platform) {
+        if (isAndroid) {
+          downloadAndroidApk();
+          return;
+        } else if (isIOS) {
+          installPwaApp();
+          return;
+        }
         openMediafireModal();
         return;
       }
       playSuccessChime();
       if (platform === 'android') {
-        const url = (adminConfig.androidApkUrl && adminConfig.androidApkUrl.trim())
-          ? adminConfig.androidApkUrl.trim()
-          : (adminConfig.mediafireUrl || 'https://www.mediafire.com/');
-        window.open(url, '_blank');
+        downloadAndroidApk();
       } else if (platform === 'windows') {
         downloadWindowsApp();
       } else if (platform === 'mac') {
@@ -9774,6 +9795,7 @@ DIRECTIVES:
     window.closeMediafireModal = closeMediafireModal;
     window.closeProfileModal = closeProfileModal;
     window.deleteHabit = deleteHabit;
+    window.downloadAndroidApk = downloadAndroidApk;
     window.downloadWindowsApp = downloadWindowsApp;
     window.downloadWindowsZip = downloadWindowsZip;
     window.downloadDirectHtmlFile = downloadDirectHtmlFile;

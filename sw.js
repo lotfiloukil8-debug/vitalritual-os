@@ -25,8 +25,8 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Video files require range requests (HTTP 206) - bypass service worker cache
-  if (event.request.destination === 'video' || event.request.url.endsWith('.mp4') || event.request.url.includes('.mp4')) {
+  // Video and APK binary files bypass service worker cache for direct download/streaming
+  if (event.request.destination === 'video' || event.request.url.endsWith('.mp4') || event.request.url.includes('.mp4') || event.request.url.endsWith('.apk') || event.request.url.includes('.apk') || event.request.url.endsWith('.exe') || event.request.url.endsWith('.zip')) {
     return;
   }
 
