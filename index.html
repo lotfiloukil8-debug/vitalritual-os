@@ -5643,9 +5643,9 @@
       const topStreak = document.getElementById('top-streak-count');
       if (topStreak) topStreak.textContent = streak + 'd';
       const topShields = document.getElementById('top-shields-count');
-      if (topShields) topShields.textContent = shields;
+      if (topShields) topShields.textContent = shields.toString();
       const topFlames = document.getElementById('top-flames-count');
-      if (topFlames) topFlames.textContent = flames + ' 🔥';
+      if (topFlames) topFlames.textContent = flames.toString();
       const dateDisp = document.getElementById('today-date-display');
       if (dateDisp) dateDisp.textContent = todayStr;
       
@@ -5657,7 +5657,7 @@
 
       // 🛡️ Next Shield Progress Counter (e.g. 2 / 7 flames)
       const currentShieldProgress = flames % 7;
-      const remainingFlamesForShield = currentShieldProgress === 0 && flames === 0 ? 7 : (7 - currentShieldProgress);
+      const remainingFlamesForShield = 7 - currentShieldProgress;
       const shieldPct = Math.round((currentShieldProgress / 7) * 100);
 
       const topShieldCounter = document.getElementById('top-shields-counter');
@@ -5887,6 +5887,8 @@
       localStorage.setItem('vital_checkin_habits', JSON.stringify(habits));
       renderCustomHabitsSection();
       renderHabitsManagement();
+      renderHeroStatus();
+      renderTopBadges();
 
       const completedCount = habits.filter(h => h.completed).length;
       const totalCount = habits.length;
@@ -6078,32 +6080,33 @@
       }
 
       const completedHabitsToday = habits.filter(h => h.completed).length;
-      const isAllCompleted = completedHabitsToday === totalHabits;
 
-      if (isAllCompleted) {
-        // 🌟 SUCCESS: Completed 100% of chosen habits
-        flames += 1;
+      if (completedHabitsToday > 0) {
+        // 🌟 SUCCESS: Earn flames for completed habits
+        const earnedFlames = Math.max(1, completedHabitsToday);
+        flames += earnedFlames;
         streak += 1;
         if (streak > longestStreak) {
           longestStreak = streak;
         }
-        points += 100;
+        points += (completedHabitsToday * 50) + 100;
 
         // 🛡️ Shield Rule: Recovers +1 shield every 7 flames
-        let earnedShield = false;
-        if (flames > 0 && flames % 7 === 0) {
-          shields += 1;
-          earnedShield = true;
+        const prevShields = shields;
+        const calculatedShields = Math.floor(flames / 7);
+        if (calculatedShields > shields) {
+          shields = calculatedShields;
         }
+        const earnedShield = shields > prevShields;
 
         // 🎬 Trigger Flame Gained Celebration Animation & Sound
         playSoundEffect('flame_gain');
         launchConfetti();
         triggerFlameGainedAnimation(flames, earnedShield, shields);
 
-        let successMsg = `✓ أداء احترافي استثنائي! لقد أتممت جميع عاداتك بنجاح اليوم (+1 شعلة 🔥 · الإجمالي: ${flames} 🔥 · +100 نقطة ⭐).`;
+        let successMsg = `✓ تم تسجيل اليوم بنجاح! (+${earnedFlames} شعلة 🔥 · الإجمالي: ${flames} 🔥 · +${(completedHabitsToday * 50) + 100} نقطة ⭐)`;
         if (earnedShield) {
-          successMsg += ` 🛡️ مبروك! حققت 7 شعلات ونلت درع حماية إضافي (الدروع: ${shields})!`;
+          successMsg += ` 🛡️ مبروك! حققت 7 شعلات وحصلت على درع حماية إضافي (الدروع: ${shields})!`;
         }
         showToast(successMsg);
 
@@ -6114,40 +6117,31 @@
           totalHabits: totalHabits
         };
       } else {
-        // ⚠️ INCOMPLETE: Did not complete all chosen habits
+        // ⚠️ 0 habits completed
         if (shields > 0) {
-          // 🛡️ Protected by shield: Keep existing flames and streak, consume 1 shield, 0 new flames, 0 points
           shields -= 1;
-
-          // 🎬 Trigger Shield Saved Animation & Deflection Sound
           playSoundEffect('shield_saved');
-          triggerShieldSavedAnimation(flames, shields, completedHabitsToday, totalHabits);
-
-          showToast(`🛡️ تم تفعيل درع الحماية تلقائياً لحفظ شعلاتك (${flames} 🔥) وسلسلتك السابقة. لم تكتمل كافة العادات (${completedHabitsToday}/${totalHabits})، لذا لم تُمنح شعلة جديدة ولا نقاط لليوم. (الدروع المتبقية: ${shields})`);
-
+          triggerShieldSavedAnimation(flames, shields, 0, totalHabits);
+          showToast(`🛡️ تم تفعيل درع الحماية تلقائياً لحفظ شعلاتك (${flames} 🔥). (الدروع المتبقية: ${shields})`);
           checkInLogs[todayStr] = {
             date: todayStr,
             status: 'shielded',
-            habitsDone: completedHabitsToday,
+            habitsDone: 0,
             totalHabits: totalHabits
           };
         } else {
-          // ❌ No shield: Lose all flames, reset streak to 0, 0 points
-          flames = 0;
+          // No shield and 0 habits done
+          flames = Math.max(0, flames - 1);
           streak = 0;
-
-          // 🎬 Trigger Screen Shake, Flames Lost Animation & Sound
           playSoundEffect('flame_lost');
           document.body.classList.add('animate-shake-screen');
           setTimeout(() => document.body.classList.remove('animate-shake-screen'), 600);
-          triggerFlamesLostAnimation(completedHabitsToday, totalHabits);
-
-          showToast(`⚠️ لم يتم إكمال جميع العادات المحددة لليوم (${completedHabitsToday}/${totalHabits}) ولا تملك دروع حماية. تمت إعادة تعيين الشعلات والسلسلة إلى 0 ولم تُمنح نقاط.`);
-
+          triggerFlamesLostAnimation(0, totalHabits);
+          showToast(`⚠️ لم تسجل أي عادة لليوم. تمت إعادة تعيين السلسلة.`);
           checkInLogs[todayStr] = {
             date: todayStr,
             status: 'missed',
-            habitsDone: completedHabitsToday,
+            habitsDone: 0,
             totalHabits: totalHabits
           };
         }
