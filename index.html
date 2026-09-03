@@ -13,6 +13,21 @@
   <meta name="apple-mobile-web-app-title" content="VitalRitual" />
   <title>VitalRitual · نظام تسجيل العادات، أكواب الماء الحقيقية، والملف الشخصي</title>
 
+  <script>
+    (function() {
+      try {
+        var isDesktop = window.location.protocol === 'file:' || 
+                        window.location.href.indexOf('desktop') !== -1 || 
+                        window.location.search.indexOf('desktop') !== -1 || 
+                        window.location.hash.indexOf('desktop') !== -1 || 
+                        (navigator.userAgent && navigator.userAgent.indexOf('VitalRitual_OS') !== -1);
+        if (isDesktop) {
+          document.documentElement.classList.add('is-desktop-app');
+        }
+      } catch(e){}
+    })();
+  </script>
+
   <!-- Google Fonts: Cairo & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,6 +50,13 @@
   </script>
 
   <style>
+    /* Hide download buttons when running as desktop application */
+    html.is-desktop-app #btn-nav-download-app,
+    html.is-desktop-app .hide-on-desktop,
+    html.is-desktop-app #modal-mediafire {
+      display: none !important;
+    }
+
     /* ════════════════════ ANIMATIONS & DESIGN SYSTEM ════════════════════ */
     @keyframes floatOrb1 {
       0%, 100% { transform: translate(0px, 0px) scale(1); }
@@ -8321,7 +8343,9 @@ DIRECTIVES:
       a.download = 'VitalRitual_OS.exe';
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
+      setTimeout(() => {
+        try { document.body.removeChild(a); } catch(e){}
+      }, 300);
     }
 
     function downloadWindowsZip() {
@@ -8332,7 +8356,9 @@ DIRECTIVES:
       a.download = 'VitalRitual_OS_PC_v1.0.zip';
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
+      setTimeout(() => {
+        try { document.body.removeChild(a); } catch(e){}
+      }, 300);
     }
 
     function installMacApp() {
@@ -8372,12 +8398,19 @@ DIRECTIVES:
 
     function openMediafireModal() {
       const modal = document.getElementById('modal-mediafire');
-      if (modal) modal.classList.remove('hidden');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        playSuccessChime();
+      }
     }
 
     function closeMediafireModal() {
       const modal = document.getElementById('modal-mediafire');
-      if (modal) modal.classList.add('hidden');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
     }
 
     function openMediafireDirect() {
@@ -8403,19 +8436,30 @@ DIRECTIVES:
     }
 
     function checkAppEnvironment() {
-      // Auto-hide download button when running natively inside the desktop app (.exe / local protocol)
-      const isDesktopApp = window.location.protocol === 'file:' || 
-                           (navigator.userAgent && navigator.userAgent.includes('VitalRitual_OS')) || 
-                           window.isNativeDesktopApp === true;
-      const downloadBtn = document.getElementById('btn-nav-download-app');
-      if (downloadBtn) {
+      try {
+        const isDesktopApp = window.location.protocol === 'file:' || 
+                             window.location.href.indexOf('desktop') !== -1 || 
+                             window.location.search.indexOf('desktop') !== -1 || 
+                             window.location.hash.indexOf('desktop') !== -1 || 
+                             (navigator.userAgent && navigator.userAgent.indexOf('VitalRitual_OS') !== -1) || 
+                             window.isNativeDesktopApp === true;
         if (isDesktopApp) {
-          downloadBtn.classList.add('hidden');
-          downloadBtn.style.display = 'none';
+          document.documentElement.classList.add('is-desktop-app');
         } else {
-          downloadBtn.classList.remove('hidden');
-          downloadBtn.style.display = 'flex';
+          document.documentElement.classList.remove('is-desktop-app');
         }
+        const downloadBtn = document.getElementById('btn-nav-download-app');
+        if (downloadBtn) {
+          if (isDesktopApp) {
+            downloadBtn.classList.add('hidden');
+            downloadBtn.style.setProperty('display', 'none', 'important');
+          } else {
+            downloadBtn.classList.remove('hidden');
+            downloadBtn.style.removeProperty('display');
+          }
+        }
+      } catch (e) {
+        console.error('Environment check error:', e);
       }
     }
 
@@ -8640,25 +8684,6 @@ DIRECTIVES:
         openAdminPinModal();
       }
     });
-
-    function openPlatformDownload(platform) {
-      playSuccessChime();
-      if (platform === 'android') {
-        const url = (adminConfig.androidApkUrl && adminConfig.androidApkUrl.trim())
-          ? adminConfig.androidApkUrl.trim()
-          : (adminConfig.mediafireUrl || 'https://www.mediafire.com/');
-        showToast('🤖 جاري نقلك لتحميل تطبيق الأندرويد (APK)...');
-        window.open(url, '_blank');
-      } else if (platform === 'ios') {
-        const url = (adminConfig.iosAppUrl && adminConfig.iosAppUrl.trim())
-          ? adminConfig.iosAppUrl.trim()
-          : (adminConfig.mediafireUrl || 'https://www.mediafire.com/');
-        showToast('🍏 جاري نقلك لتحميل تطبيق الآيفون (iOS)...');
-        window.open(url, '_blank');
-      } else {
-        openMediafireDirect();
-      }
-    }
 
     function openAdminPinModal() {
       const pinModal = document.getElementById('modal-admin-pin');

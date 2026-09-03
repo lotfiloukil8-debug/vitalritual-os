@@ -91,7 +91,7 @@ namespace VitalRitual
                     ProcessStartInfo psi = new ProcessStartInfo();
                     psi.FileName = browserExe;
                     psi.Arguments = string.Format(
-                        "--app=\"{0}\" --user-data-dir=\"{1}\" --window-size=1360,880 --enable-features=OverlayScrollbar --disable-features=Translate",
+                        "--app=\"{0}#desktop_app\" --user-data-dir=\"{1}\" --window-size=1360,880 --enable-features=OverlayScrollbar --disable-features=Translate",
                         fileUri,
                         userDataDir
                     );
@@ -102,7 +102,7 @@ namespace VitalRitual
                 {
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = fileUri,
+                        FileName = fileUri + "#desktop_app",
                         UseShellExecute = true
                     });
                 }
