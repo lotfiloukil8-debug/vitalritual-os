@@ -2313,25 +2313,25 @@
               </div>
               <span id="duel-p1-name" class="text-xs font-black block truncate">أنت (البطل)</span>
               <div class="flex items-center justify-center gap-1">
-                <span id="duel-p1-flames" class="text-rose-600 dark:text-rose-400 text-sm font-black font-mono">14 🔥</span>
+                <span id="duel-p1-flames" class="text-rose-600 dark:text-rose-400 text-sm font-black font-mono">0 🔥</span>
                 <span class="text-[10px] text-slate-400">·</span>
-                <span id="duel-p1-shields" class="text-cyan-600 dark:text-cyan-400 text-xs font-black font-mono">2 🛡️</span>
+                <span id="duel-p1-shields" class="text-cyan-600 dark:text-cyan-400 text-xs font-black font-mono">0 🛡️</span>
               </div>
-              <span class="inline-block text-[9px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold">✓ شعلاتك متقدة</span>
+              <span id="duel-p1-status" class="inline-block text-[9px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold">✓ شعلاتك متقدة</span>
             </div>
 
             <!-- VS Badge -->
             <div class="shrink-0 flex flex-col items-center justify-center px-2">
               <span class="text-xl font-black font-mono text-amber-600 dark:text-amber-400 animate-pulse">VS</span>
-              <span id="duel-day-counter" class="text-[9px] font-mono font-bold text-slate-500 dark:text-slate-400">اليوم 3 من 7</span>
+              <span id="duel-day-counter" class="text-[10px] font-mono font-black text-amber-600 dark:text-amber-400">اليوم 1 من 7</span>
             </div>
 
             <!-- Player 2 (Opponent) -->
             <div class="flex-1 space-y-1.5 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xs">
               <div id="duel-p2-avatar" class="w-12 h-12 mx-auto rounded-2xl bg-gradient-to-tr from-rose-500 to-orange-500 flex items-center justify-center text-2xl shadow-sm">
-                ⚔️
+                🦅
               </div>
-              <span id="duel-p2-name" class="text-xs font-black block truncate">كريم الفولاذي</span>
+              <span id="duel-p2-name" class="text-xs font-black block truncate">يوسف الصارم</span>
               <div class="flex items-center justify-center gap-1">
                 <span id="duel-p2-flames" class="text-rose-600 dark:text-rose-400 text-sm font-black font-mono">12 🔥</span>
                 <span class="text-[10px] text-slate-400">·</span>
@@ -2341,21 +2341,70 @@
             </div>
           </div>
 
+          <!-- 7-Day Match Rounds Visual Grid -->
+          <div class="space-y-1.5 pt-1">
+            <div class="flex justify-between items-center text-[10px] font-mono font-bold text-slate-600 dark:text-slate-400">
+              <span id="duel-rounds-label">📊 مسار الجولات (7 أيام)</span>
+              <span id="duel-score-display" class="font-black text-amber-600 dark:text-amber-400 font-mono text-xs">0 - 0</span>
+            </div>
+            <div id="duel-rounds-track" class="grid grid-cols-7 gap-1.5 p-2 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-amber-300 dark:border-amber-800/60">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
           <!-- Match Progress Bar -->
           <div class="space-y-1">
             <div class="flex justify-between text-[10px] font-mono font-bold text-slate-600 dark:text-slate-400">
               <span id="duel-stake-label">الرهان: وسام مجد الأسبوع 🏆 + 200 نقطة ⭐</span>
-              <span id="duel-progress-pct" class="text-amber-600 dark:text-amber-400 font-black">43% منجز</span>
+              <span id="duel-progress-pct" class="text-amber-600 dark:text-amber-400 font-black">14% منجز</span>
             </div>
             <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-              <div id="duel-progress-bar" class="h-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-full transition-all duration-700" style="width: 43%"></div>
+              <div id="duel-progress-bar" class="h-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-full transition-all duration-700" style="width: 14%"></div>
             </div>
+          </div>
+
+          <!-- Victory / Duel Reward Claim Banner (Visible when completed) -->
+          <div id="duel-victory-box" class="hidden p-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 text-slate-950 font-black text-xs flex flex-col sm:flex-row items-center justify-between gap-2 shadow-lg animate-bounce">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🏆</span>
+              <span id="duel-victory-text">مبروك! لقد فزت بمبارزة الـ 7 أيام!</span>
+            </div>
+            <button
+              type="button"
+              onclick="claimDuelVictory()"
+              class="px-4 py-2 rounded-xl bg-slate-950 text-amber-300 font-black text-xs hover:bg-slate-900 cursor-pointer transition"
+            >
+              استلام 200 نقطة ⭐
+            </button>
+          </div>
+        </div>
+
+        <!-- 🤖 Choose Community Champions Preset -->
+        <div class="space-y-2">
+          <label id="duel-presets-label" class="text-xs font-black text-slate-700 dark:text-slate-300 block">⚡ اختر منافساً من أبطال المجتمع :</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button type="button" onclick="setDuelRivalPreset(0)" class="p-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-amber-500 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+              <span>🦅</span>
+              <span class="truncate">يوسف (15 🔥)</span>
+            </button>
+            <button type="button" onclick="setDuelRivalPreset(1)" class="p-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-amber-500 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+              <span>🦁</span>
+              <span class="truncate">طارق (22 🔥)</span>
+            </button>
+            <button type="button" onclick="setDuelRivalPreset(2)" class="p-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-amber-500 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+              <span>🌟</span>
+              <span class="truncate">سارة (10 🔥)</span>
+            </button>
+            <button type="button" onclick="setDuelRivalPreset(3)" class="p-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-amber-500 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+              <span>⚡</span>
+              <span class="truncate">زينب (18 🔥)</span>
+            </button>
           </div>
         </div>
 
         <!-- Custom Friend Name Input & Dynamic Link -->
         <div class="space-y-2">
-          <label class="text-xs font-black text-slate-700 dark:text-slate-300 block">👤 اسم الصديق الذي تريد تحديه (اختياري):</label>
+          <label id="duel-friend-input-label" class="text-xs font-black text-slate-700 dark:text-slate-300 block">👤 أو اكتب اسم صديقك لتحديه خصيصاً:</label>
           <div class="flex gap-2">
             <input
               type="text"
@@ -2366,6 +2415,7 @@
             />
             <button
               type="button"
+              id="btn-duel-apply-name"
               onclick="applyCustomDuelOpponent()"
               class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition cursor-pointer"
             >
@@ -2378,40 +2428,53 @@
         <div class="space-y-3 pt-1">
           <div class="p-3.5 rounded-2xl bg-[#FAFCFF] dark:bg-slate-900 border border-slate-300 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-2.5">
             <div class="text-right w-full sm:w-auto overflow-hidden">
-              <span class="text-xs font-bold block text-slate-900 dark:text-white">🔗 رابط دعوتك المباشر للمبارزة:</span>
+              <span id="duel-invite-box-label" class="text-xs font-bold block text-slate-900 dark:text-white">🔗 رابط دعوتك المباشر للمبارزة:</span>
               <span id="duel-invite-link-text" class="text-[11px] font-mono text-cyan-600 dark:text-cyan-400 truncate block max-w-xs">
                 https://vitalritual.app/#duel-7d-hero
               </span>
             </div>
             <button
               type="button"
+              id="btn-duel-copy-link"
               onclick="copyDuelInviteLink()"
               class="w-full sm:w-auto px-4 py-2 rounded-xl bg-cyan-100 dark:bg-cyan-950 hover:bg-cyan-200 dark:hover:bg-cyan-900 border border-cyan-300 dark:border-cyan-800 text-cyan-950 dark:text-cyan-200 font-black text-xs transition cursor-pointer flex items-center justify-center gap-1.5"
             >
               <span>📋</span>
-              <span>نسخ الرابط</span>
+              <span id="btn-duel-copy-text">نسخ الرابط</span>
             </button>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
             <button
               type="button"
+              id="btn-duel-whatsapp"
               onclick="shareDuelOnWhatsApp()"
               class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md transition hover:scale-102 flex items-center justify-center gap-2 cursor-pointer"
             >
               <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
-              <span>إرسال التحدي لصديق عبر واتساب</span>
+              <span id="btn-duel-whatsapp-text">تحدي صديق عبر واتساب</span>
             </button>
 
             <button
               type="button"
-              onclick="startSimulatedDuel()"
+              id="btn-duel-play-round"
+              onclick="playDuelRoundToday()"
               class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-xs shadow-md transition hover:scale-102 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>🤖</span>
-              <span>مبارزة منافس ذكي جديد (AI Rival)</span>
+              <span>⚡</span>
+              <span id="btn-duel-play-text">لعب جولة اليوم</span>
+            </button>
+
+            <button
+              type="button"
+              id="btn-duel-restart"
+              onclick="resetDuelState()"
+              class="w-full py-3 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-black text-xs shadow-sm transition hover:scale-102 flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>🔄</span>
+              <span id="btn-duel-restart-text">مبارزة جديدة</span>
             </button>
           </div>
         </div>
@@ -4168,6 +4231,22 @@
       setAppLanguage(currentAppLanguage);
 
       // Check hash routing
+      if (window.location.hash.startsWith('#duel')) {
+        showFlowStep('main-app');
+        setTimeout(() => {
+          try {
+            const hash = window.location.hash;
+            const parts = hash.split('-vs-');
+            if (parts.length > 1) {
+              const friend = decodeURIComponent(parts[1]);
+              currentCustomDuelRivalName = friend;
+              currentDuelState.opponentName = friend;
+            }
+            openSocialDuelModal();
+          } catch(e) { openSocialDuelModal(); }
+        }, 150);
+        return;
+      }
       if (window.location.hash === '#admin') {
         openAdminPinModal();
         return;
@@ -5640,7 +5719,11 @@
     window.closeSocialDuelModal = closeSocialDuelModal;
     window.copyDuelInviteLink = copyDuelInviteLink;
     window.shareDuelOnWhatsApp = shareDuelOnWhatsApp;
-    window.startSimulatedDuel = startSimulatedDuel;
+    window.setDuelRivalPreset = setDuelRivalPreset;
+    window.applyCustomDuelOpponent = applyCustomDuelOpponent;
+    window.playDuelRoundToday = playDuelRoundToday;
+    window.claimDuelVictory = claimDuelVictory;
+    window.resetDuelState = resetDuelState;
     window.openStoryGeneratorModal = openStoryGeneratorModal;
     window.closeStoryGeneratorModal = closeStoryGeneratorModal;
     window.downloadStoryCardImage = downloadStoryCardImage;
@@ -6484,6 +6567,8 @@
       localStorage.setItem('vital_flames', flames.toString());
       localStorage.setItem('vital_checkin_logs', JSON.stringify(checkInLogs));
 
+      try { advanceDuelOnCheckIn(); } catch(e) {}
+
       saveAccountSyncData();
       renderAll();
     }
@@ -7272,19 +7357,53 @@ DIRECTIVES:
     }
 
     // ⚔️ 2. SOCIAL DUELS ARENA ENGINE
-    let currentDuelState = {
-      active: true,
-      day: 3,
-      totalDays: 7,
-      opponentName: 'كريم الفولاذي',
-      opponentAvatar: '⚔️',
-      opponentFlames: 12,
-      opponentShields: 1,
-      stakeTitle: 'وسام مجد الأسبوع 🏆 + 200 نقطة ⭐'
-    };
+    const DUEL_RIVAL_PRESETS = [
+      { nameAr: 'يوسف الصارم', nameFr: 'Youssef l\'Inflexible', nameEn: 'Youssef The Ironclad', avatar: '🦅', flames: 15, shields: 1, winChance: 0.75 },
+      { nameAr: 'طارق التيتاني', nameFr: 'Tarek le Titan', nameEn: 'Tarek The Titan', avatar: '🦁', flames: 22, shields: 2, winChance: 0.85 },
+      { nameAr: 'سارة المتألقة', nameFr: 'Sarah l\'Étoile', nameEn: 'Sarah The Radiant', avatar: '🌟', flames: 10, shields: 2, winChance: 0.65 },
+      { nameAr: 'زينب الرائدة', nameFr: 'Zineb l\'Éclair', nameEn: 'Zineb The Striker', avatar: '⚡', flames: 18, shields: 3, winChance: 0.80 }
+    ];
+
+    function getInitialDuelState() {
+      return {
+        active: true,
+        day: 1,
+        totalDays: 7,
+        p1Scores: [null, null, null, null, null, null, null],
+        p2Scores: [null, null, null, null, null, null, null],
+        rivalIndex: 0,
+        opponentName: 'Youssef l\'Inflexible',
+        opponentAvatar: '🦅',
+        opponentFlames: 15,
+        opponentShields: 1,
+        claimed: false,
+        lastRoundPlayedDate: null
+      };
+    }
+
+    let currentDuelState = null;
+    try {
+      const savedDuel = localStorage.getItem('vital_duel_state');
+      if (savedDuel) {
+        currentDuelState = JSON.parse(savedDuel);
+      }
+    } catch(e) {
+      console.warn('Error loading duel state:', e);
+    }
+    if (!currentDuelState || !Array.isArray(currentDuelState.p1Scores)) {
+      currentDuelState = getInitialDuelState();
+    }
 
     let currentStoryTheme = 'cyber';
     let currentCustomDuelRivalName = '';
+
+    function saveDuelState() {
+      try {
+        localStorage.setItem('vital_duel_state', JSON.stringify(currentDuelState));
+      } catch(e) {
+        console.warn('Error saving duel state:', e);
+      }
+    }
 
     function openSocialDuelModal() {
       try { renderDuelArena(); } catch(e) { console.warn('renderDuelArena error:', e); }
@@ -7295,6 +7414,22 @@ DIRECTIVES:
     function closeSocialDuelModal() {
       const modal = document.getElementById('modal-social-duel');
       if (modal) modal.classList.add('hidden');
+    }
+
+    function setDuelRivalPreset(index) {
+      const preset = DUEL_RIVAL_PRESETS[index] || DUEL_RIVAL_PRESETS[0];
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+      currentDuelState.rivalIndex = index;
+      currentDuelState.opponentName = isFr ? preset.nameFr : (isEn ? preset.nameEn : preset.nameAr);
+      currentDuelState.opponentAvatar = preset.avatar;
+      currentDuelState.opponentFlames = preset.flames;
+      currentDuelState.opponentShields = preset.shields;
+      currentCustomDuelRivalName = '';
+      saveDuelState();
+      renderDuelArena();
+      playSuccessChime();
+      showToast(isFr ? `⚔️ Adversaire sélectionné : ${currentDuelState.opponentName}` : (isEn ? `⚔️ Rival selected: ${currentDuelState.opponentName}` : `⚔️ تم اختيار المنافس: ${currentDuelState.opponentName}`));
     }
 
     function handleDuelFriendNameChange(val) {
@@ -7310,98 +7445,214 @@ DIRECTIVES:
     function applyCustomDuelOpponent() {
       const nameInput = document.getElementById('duel-input-friend-name');
       const name = (nameInput?.value || '').trim();
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
       if (!name) {
-        showToast('⚠️ يرجى كتابة اسم الصديق أولاً!');
+        showToast(isFr ? '⚠️ Veuillez saisir le nom de votre ami !' : (isEn ? '⚠️ Please enter friend name!' : '⚠️ يرجى كتابة اسم الصديق أولاً!'));
         return;
       }
       currentCustomDuelRivalName = name;
-      const p2Name = document.getElementById('duel-p2-name');
-      const p2Status = document.getElementById('duel-p2-status');
-      if (p2Name) p2Name.textContent = name;
-      if (p2Status) p2Status.textContent = '⏳ تم إرسال التحدي';
+      currentDuelState.opponentName = name;
+      currentDuelState.opponentAvatar = '⚔️';
+      currentDuelState.opponentFlames = Math.max(1, flames + Math.floor(Math.random() * 3) - 1);
+      currentDuelState.opponentShields = 1;
+      saveDuelState();
+      renderDuelArena();
       playSuccessChime();
-      showToast(`⚔️ تم إعداد التحدي ضد: ${name}!`);
+      showToast(isFr ? `⚔️ Défi configuré contre : ${name} !` : (isEn ? `⚔️ Duel set against: ${name}!` : `⚔️ تم إعداد التحدي ضد: ${name}!`));
     }
 
     function renderDuelArena() {
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+
       const p1Avatar = document.getElementById('duel-p1-avatar');
       const p1Name = document.getElementById('duel-p1-name');
       const p1Flames = document.getElementById('duel-p1-flames');
       const p1Shields = document.getElementById('duel-p1-shields');
+      const p1Status = document.getElementById('duel-p1-status');
+
+      const p2Avatar = document.getElementById('duel-p2-avatar');
+      const p2Name = document.getElementById('duel-p2-name');
+      const p2Flames = document.getElementById('duel-p2-flames');
+      const p2Shields = document.getElementById('duel-p2-shields');
+      const p2Status = document.getElementById('duel-p2-status');
+
+      const modalTitle = document.getElementById('duel-modal-title');
+      const modalSub = document.getElementById('duel-modal-sub');
+      const roundsLabel = document.getElementById('duel-rounds-label');
+      const stakeLabel = document.getElementById('duel-stake-label');
+      const presetsLabel = document.getElementById('duel-presets-label');
+      const friendInputLabel = document.getElementById('duel-friend-input-label');
+      const btnApplyName = document.getElementById('btn-duel-apply-name');
+      const inviteBoxLabel = document.getElementById('duel-invite-box-label');
+      const btnCopyText = document.getElementById('btn-duel-copy-text');
+      const btnWhatsAppText = document.getElementById('btn-duel-whatsapp-text');
+      const btnPlayText = document.getElementById('btn-duel-play-text');
+      const btnRestartText = document.getElementById('btn-duel-restart-text');
       const linkText = document.getElementById('duel-invite-link-text');
 
-      const evo = getAvatarEvolution(flames);
+      if (modalTitle) modalTitle.textContent = isFr ? "Arène des Duels d'Amis (Social Duels Arena)" : (isEn ? "Social Duels Arena (Friends Duels)" : "ساحة مبارزات الأصدقاء (Social Duels Arena)");
+      if (modalSub) modalSub.textContent = isFr ? "Défiez vos amis dans un duel de 7 jours : gardez vos flammes pour remporter la gloire !" : (isEn ? "Challenge your friends to a 7-day duel: keep your flames alive to win!" : "تحدَّ أصدقاءك في مبارزة 7 أيام: من تنطفئ شعلاته يخسر التحدي!");
+      if (roundsLabel) roundsLabel.textContent = isFr ? "📊 Suivi des 7 Jours de Combat" : (isEn ? "📊 7-Day Match Track" : "📊 مسار الجولات (7 أيام)");
+      if (stakeLabel) stakeLabel.textContent = isFr ? "Enjeu : Trophée de Gloire Hebdomadaire 🏆 + 200 PTS ⭐" : (isEn ? "Stake: Weekly Glory Trophy 🏆 + 200 PTS ⭐" : "الرهان: وسام مجد الأسبوع 🏆 + 200 نقطة ⭐");
+      if (presetsLabel) presetsLabel.textContent = isFr ? "⚡ Choisissez un champion de la communauté :" : (isEn ? "⚡ Choose a community champion:" : "⚡ اختر منافساً من أبطال المجتمع :");
+      if (friendInputLabel) friendInputLabel.textContent = isFr ? "👤 Ou écrivez le prénom de votre ami à défier :" : (isEn ? "👤 Or enter your friend's name to challenge:" : "👤 أو اكتب اسم صديقك لتحديه خصيصاً:");
+      if (btnApplyName) btnApplyName.textContent = isFr ? "Appliquer ⚔️" : (isEn ? "Apply ⚔️" : "تطبيق ⚔️");
+      if (inviteBoxLabel) inviteBoxLabel.textContent = isFr ? "🔗 Votre lien direct d'invitation au duel :" : (isEn ? "🔗 Your direct duel challenge link:" : "🔗 رابط دعوتك المباشر للمبارزة:");
+      if (btnCopyText) btnCopyText.textContent = isFr ? "Copier le lien" : (isEn ? "Copy Link" : "نسخ الرابط");
+      if (btnWhatsAppText) btnWhatsAppText.textContent = isFr ? "Défier sur WhatsApp" : (isEn ? "Challenge on WhatsApp" : "تحدي عبر واتساب");
+      if (btnPlayText) btnPlayText.textContent = isFr ? "Valider le tour du jour ⚡" : (isEn ? "Play Today's Round ⚡" : "لعب جولة اليوم ⚡");
+      if (btnRestartText) btnRestartText.textContent = isFr ? "Nouveau Duel 🔄" : (isEn ? "New Duel 🔄" : "مبارزة جديدة 🔄");
 
+      const evo = getAvatarEvolution(flames);
       if (p1Avatar) p1Avatar.textContent = currentUser.avatar || evo.icon || '🦁';
-      if (p1Name) p1Name.textContent = currentUser.name || (currentAppLang === 'fr' ? 'Vous (Champion)' : currentAppLang === 'en' ? 'You (Hero)' : 'أنت (البطل)');
+      if (p1Name) p1Name.textContent = currentUser.name || (isFr ? 'Vous (Champion)' : isEn ? 'You (Hero)' : 'أنت (البطل)');
       if (p1Flames) p1Flames.textContent = `${flames} 🔥`;
       if (p1Shields) p1Shields.textContent = `${shields} 🛡️`;
+      if (p1Status) p1Status.textContent = isFr ? "✓ Vos flammes brûlent" : (isEn ? "✓ Your flames active" : "✓ شعلاتك متقدة");
+
+      if (p2Avatar) p2Avatar.textContent = currentDuelState.opponentAvatar || '🦅';
+      if (p2Name) p2Name.textContent = currentDuelState.opponentName || 'Youssef';
+      if (p2Flames) p2Flames.textContent = `${currentDuelState.opponentFlames || 15} 🔥`;
+      if (p2Shields) p2Shields.textContent = `${currentDuelState.opponentShields || 1} 🛡️`;
+      if (p2Status) p2Status.textContent = isFr ? "⏳ En compétition" : (isEn ? "⏳ In competition" : "⏳ في المنافسة");
+
+      const dayCounter = document.getElementById('duel-day-counter');
+      if (dayCounter) {
+        dayCounter.textContent = isFr ? `Jour ${currentDuelState.day} sur 7` : (isEn ? `Day ${currentDuelState.day} of 7` : `اليوم ${currentDuelState.day} من 7`);
+      }
+
+      const p1Wins = currentDuelState.p1Scores.filter(s => s === true).length;
+      const p2Wins = currentDuelState.p2Scores.filter(s => s === true).length;
+      const scoreDisp = document.getElementById('duel-score-display');
+      if (scoreDisp) scoreDisp.textContent = `${p1Wins} - ${p2Wins}`;
+
+      const pct = Math.min(100, Math.round(((currentDuelState.day - 1 + (currentDuelState.p1Scores[currentDuelState.day - 1] !== null ? 1 : 0)) / 7) * 100));
+      const progPct = document.getElementById('duel-progress-pct');
+      if (progPct) progPct.textContent = `${pct}% ${isFr ? 'complété' : (isEn ? 'done' : 'منجز')}`;
+      const progBar = document.getElementById('duel-progress-bar');
+      if (progBar) progBar.style.width = `${pct}%`;
+
+      // Render 7-day track
+      const trackGrid = document.getElementById('duel-rounds-track');
+      if (trackGrid) {
+        trackGrid.innerHTML = '';
+        for (let i = 0; i < 7; i++) {
+          const dayNum = i + 1;
+          const p1Sc = currentDuelState.p1Scores[i];
+          const p2Sc = currentDuelState.p2Scores[i];
+          const isCurr = dayNum === currentDuelState.day;
+
+          const p1Icon = p1Sc === true ? '🟢' : (p1Sc === false ? '🔴' : (isCurr ? '⏳' : '⚪'));
+          const p2Icon = p2Sc === true ? '🟢' : (p2Sc === false ? '🔴' : (isCurr ? '⏳' : '⚪'));
+
+          const col = document.createElement('div');
+          col.className = `p-1.5 rounded-xl text-center space-y-0.5 border ${isCurr ? 'border-amber-500 bg-amber-500/10' : 'border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/50'}`;
+          col.innerHTML = `
+            <span class="text-[9px] font-mono font-black text-slate-500 block">J${dayNum}</span>
+            <div class="text-[10px] leading-tight flex flex-col items-center gap-0.5">
+              <span title="Vous: ${p1Icon}">${p1Icon}</span>
+              <span title="Rival: ${p2Icon}">${p2Icon}</span>
+            </div>
+          `;
+          trackGrid.appendChild(col);
+        }
+      }
+
+      // Check Victory Condition
+      const victoryBox = document.getElementById('duel-victory-box');
+      if (victoryBox) {
+        const isFinished = currentDuelState.day >= 7 && currentDuelState.p1Scores[6] !== null;
+        if (isFinished && p1Wins >= p2Wins) {
+          victoryBox.classList.remove('hidden');
+          const vicText = document.getElementById('duel-victory-text');
+          if (vicText) {
+            vicText.textContent = currentDuelState.claimed 
+              ? (isFr ? "✓ Récompense de 200 PTS déjà réclamée !" : (isEn ? "✓ 200 PTS reward claimed!" : "✓ تم استلام مكافأة 200 نقطة بنجاح!"))
+              : (isFr ? `🏆 VICTOIRE ! Vous avez battu ${currentDuelState.opponentName} (${p1Wins} - ${p2Wins}) !` : (isEn ? `🏆 VICTORY! You defeated ${currentDuelState.opponentName} (${p1Wins} - ${p2Wins})!` : `🏆 مبروك الفوز على ${currentDuelState.opponentName} (${p1Wins} - ${p2Wins})!`));
+          }
+        } else {
+          victoryBox.classList.add('hidden');
+        }
+      }
 
       const heroSlug = encodeURIComponent((currentUser.name || 'hero').toLowerCase().replace(/\s+/g, '-'));
       const friendSlug = currentCustomDuelRivalName ? encodeURIComponent(currentCustomDuelRivalName.toLowerCase().replace(/\s+/g, '-')) : 'contender';
-
       if (linkText) {
         linkText.textContent = `https://vitalritual.app/#duel-7d-${heroSlug}-vs-${friendSlug}`;
       }
     }
 
-    function copyDuelInviteLink() {
-      const link = document.getElementById('duel-invite-link-text');
-      const textToCopy = link ? link.textContent.trim() : 'https://vitalritual.app/#duel-7d-hero';
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-          playSuccessChime();
-          showToast('✓ تم نسخ رابط المبارزة بنجاح!');
-        }).catch(() => {
-          fallbackCopyText(textToCopy);
-        });
-      } else {
-        fallbackCopyText(textToCopy);
+    function playDuelRoundToday() {
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+      const currentIdx = Math.min(6, currentDuelState.day - 1);
+
+      if (currentDuelState.p1Scores[currentIdx] !== null) {
+        if (currentDuelState.day < 7) {
+          currentDuelState.day += 1;
+        } else {
+          showToast(isFr ? '🏆 Le duel de 7 jours est terminé !' : (isEn ? '🏆 7-day duel complete!' : '🏆 انتهت جولات المبارزة!'));
+          renderDuelArena();
+          return;
+        }
       }
-    }
 
-    function fallbackCopyText(text) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      playSuccessChime();
-      showToast('✓ تم نسخ رابط التحدي إلى الحافظة!');
-    }
-
-    function shareDuelOnWhatsApp() {
-      const heroName = currentUser.name || 'بطل الانضباط';
-      const friendName = currentCustomDuelRivalName || 'صديقي العزيز';
-      const text = `⚔️ *تحدي مبارزة 7 أيام على VitalRitual OS!*\n\nمرحباً ${friendName}! أنا ${heroName} (${flames} 🔥) أتحداك في مبارزة انضباط وعادات لمدة 7 أيام متتالية.\n\n👑 الرهان: وسام مجد الأسبوع 🏆 + 200 نقطة ⭐!\n\n🔥 هل تقبل التحدي؟ ادخل ساحة المبارزة الآن:\nhttps://vitalritual.app/#duel-7d-${encodeURIComponent(heroName.toLowerCase().replace(/\s+/g, '-'))}`;
-      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-    }
-
-    function startSimulatedDuel() {
-      const rivals = [
-        { name: 'طارق التيتاني', avatar: '🦁', flames: Math.max(5, flames + 2), shields: 2 },
-        { name: 'يوسف الصارم', avatar: '🦅', flames: Math.max(8, flames + 3), shields: 1 },
-        { name: 'زينب الرائدة', avatar: '⚡', flames: Math.max(6, flames + 1), shields: 3 },
-        { name: 'سارة المتألقة', avatar: '🌟', flames: Math.max(9, flames + 4), shields: 2 },
-        { name: 'حمزة الفولاذي', avatar: '🛡️', flames: Math.max(7, flames + 2), shields: 1 }
-      ];
-      const rival = rivals[Math.floor(Math.random() * rivals.length)];
+      const activeIdx = Math.min(6, currentDuelState.day - 1);
+      currentDuelState.p1Scores[activeIdx] = true;
       
-      const p2Name = document.getElementById('duel-p2-name');
-      const p2Avatar = document.getElementById('duel-p2-avatar');
-      const p2Flames = document.getElementById('duel-p2-flames');
-      const p2Shields = document.getElementById('duel-p2-shields');
-      const p2Status = document.getElementById('duel-p2-status');
+      const preset = DUEL_RIVAL_PRESETS[currentDuelState.rivalIndex] || DUEL_RIVAL_PRESETS[0];
+      const winChance = preset.winChance || 0.75;
+      currentDuelState.p2Scores[activeIdx] = Math.random() < winChance;
 
-      if (p2Name) p2Name.textContent = rival.name;
-      if (p2Avatar) p2Avatar.textContent = rival.avatar;
-      if (p2Flames) p2Flames.textContent = `${rival.flames} 🔥`;
-      if (p2Shields) p2Shields.textContent = `${rival.shields} 🛡️`;
-      if (p2Status) p2Status.textContent = '⚔️ منافس نشط';
-
+      currentDuelState.lastRoundPlayedDate = todayStr;
+      saveDuelState();
       playSuccessChime();
-      showToast(`⚔️ تم إطلاق مبارزة جديدة ضد المنافس: ${rival.name}!`);
+      renderDuelArena();
+
+      const p1W = currentDuelState.p1Scores.filter(s => s === true).length;
+      const p2W = currentDuelState.p2Scores.filter(s => s === true).length;
+      showToast(isFr ? `⚔️ Tour validé ! Score actuel : ${p1W} - ${p2W}` : (isEn ? `⚔️ Round played! Score: ${p1W} - ${p2W}` : `⚔️ تم لعب الجولة! النتيجة: ${p1W} - ${p2W}`));
+    }
+
+    function advanceDuelOnCheckIn() {
+      if (!currentDuelState || !currentDuelState.active) return;
+      const currentIdx = Math.min(6, currentDuelState.day - 1);
+      currentDuelState.p1Scores[currentIdx] = true;
+      const preset = DUEL_RIVAL_PRESETS[currentDuelState.rivalIndex] || DUEL_RIVAL_PRESETS[0];
+      currentDuelState.p2Scores[currentIdx] = Math.random() < (preset.winChance || 0.75);
+      if (currentDuelState.day < 7) {
+        currentDuelState.day += 1;
+      }
+      saveDuelState();
+    }
+
+    function claimDuelVictory() {
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+      if (currentDuelState.claimed) {
+        showToast(isFr ? '✓ Récompense déjà réclamée !' : (isEn ? '✓ Reward already claimed!' : '✓ تم استلام الجائزة مسبقاً!'));
+        return;
+      }
+      points += 200;
+      localStorage.setItem('vital_points', points.toString());
+      currentDuelState.claimed = true;
+      saveDuelState();
+      launchConfetti();
+      playSuccessChime();
+      renderAll();
+      showToast(isFr ? '🏆 +200 Points XP ajoutés à votre compte !' : (isEn ? '🏆 +200 XP Points awarded!' : '🏆 تمت إضافة +200 نقطة XP إلى حسابك بنجاح!'));
+    }
+
+    function resetDuelState() {
+      const isFr = currentAppLang === 'fr';
+      const isEn = currentAppLang === 'en';
+      currentDuelState = getInitialDuelState();
+      saveDuelState();
+      renderDuelArena();
+      playSuccessChime();
+      showToast(isFr ? '🔄 Nouveau duel de 7 jours réinitialisé !' : (isEn ? '🔄 New 7-day duel started!' : '🔄 تم بدء مبارزة جديدة لمدة 7 أيام!'));
     }
 
     // 📸 3. SOCIAL STORY CARD GENERATOR ENGINE
